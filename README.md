@@ -13,9 +13,9 @@ După deploy: **https://natyni.github.io/microservices-explainer/**
 
 ## Conținut Auth
 
-- **Login browser** — theMarketerID → sesiune în app sendm
-- **Revoke acces** — eliminare din auth portal → deconectare în app
-- Navigare: butoane, taste ← →, dots, Auto ▶, link share (`#revoke/3`)
+- **Login browser** — Super Admin (sa.themarketer.com) → theMarketerID → sesiune activă
+- **Revoke acces** — auth portal → eliminare acces → deconectare în Super Admin
+- Navigare: butoane Pas 1/4…, ← →, Auto ▶, link share (`#revoke/3`). Cutiile din diagramă sunt doar vizuale.
 
 ## GitHub Pages setup
 

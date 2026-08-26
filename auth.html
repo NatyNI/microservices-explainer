@@ -100,9 +100,10 @@
       min-width: 110px;
       text-align: center;
       transition: border-color 0.25s, background 0.25s, opacity 0.25s, transform 0.15s, box-shadow 0.25s;
-      cursor: pointer;
+      cursor: default;
+      user-select: none;
+      pointer-events: none;
     }
-    .node:hover { border-color: var(--muted); }
     .node.active {
       border-color: var(--active);
       background: #152318;
@@ -126,9 +127,19 @@
     }
     .badge.ok { background: #1a3d28; color: var(--active); }
     .badge.off { background: var(--danger-dim); color: var(--danger); }
+    .badge.guest { background: #2a3040; color: var(--muted); }
     .arrow { color: var(--muted); font-size: 1.3rem; padding: 0 6px; user-select: none; transition: color 0.25s; }
     .arrow.pulse { color: var(--danger); animation: pulse 1s ease infinite; }
+    .arrow.redirect { color: var(--accent); font-size: 0.8rem; animation: pulse 1s ease infinite; }
     .arrow.event { color: var(--danger); font-size: 0.75rem; max-width: 72px; text-align: center; line-height: 1.2; }
+    .event-return {
+      flex-basis: 100%;
+      text-align: center;
+      color: var(--danger);
+      font-size: 0.82rem;
+      margin-top: 10px;
+      animation: pulse 1s ease infinite;
+    }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
     .step-box {
       background: var(--bg);
@@ -165,25 +176,39 @@
       border-radius: 999px;
       transition: width 0.3s ease;
     }
-    .step-dots {
+    .step-jump {
       display: flex;
-      gap: 6px;
+      gap: 8px;
       flex-wrap: wrap;
-      margin-bottom: 4px;
+      margin-bottom: 16px;
     }
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--border);
-      border: none;
-      padding: 0;
+    .step-jump-label {
+      width: 100%;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+    .step-btn {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 500;
       cursor: pointer;
-      transition: background 0.2s, transform 0.15s;
+      transition: border-color 0.15s, background 0.15s, color 0.15s;
     }
-    .dot:hover { background: var(--muted); transform: scale(1.15); }
-    .dot.current { background: var(--accent); transform: scale(1.2); }
-    .dot.done { background: var(--active); }
+    .step-btn:hover { border-color: var(--muted); color: var(--text); }
+    .step-btn.current {
+      border-color: var(--accent);
+      color: var(--text);
+      background: var(--accent-dim);
+    }
+    .step-btn.done {
+      border-color: #2d5a3d;
+      color: var(--active);
+    }
     .controls { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; align-items: center; }
     button {
       background: var(--accent);
@@ -270,8 +295,7 @@
 
     <h1>Auth Service — schematic interactiv</h1>
     <p class="sub">
-      Click pe cutii sau folosește butoanele. Tab <strong>Revoke</strong>: vezi cum dispar accesul
-      din auth și din app theMarketer (sendm).
+      Navighează cu butoanele de pași sau ← →. Tab <strong>Revoke</strong>: eliminare acces din auth → deconectare în Super Admin.
     </p>
 
     <div class="tabs">
@@ -281,7 +305,7 @@
 
     <div id="panel-browser" class="panel active">
       <div class="progress-bar"><div class="progress-fill" id="bar-browser"></div></div>
-      <div class="step-dots" id="dots-browser"></div>
+      <div class="step-jump" id="jump-browser"></div>
       <div class="diagram" id="diag-browser"></div>
       <div class="progress-row">
         <p class="progress" id="prog-browser"></p>
@@ -303,7 +327,7 @@
 
     <div id="panel-revoke" class="panel">
       <div class="progress-bar"><div class="progress-fill" id="bar-revoke"></div></div>
-      <div class="step-dots" id="dots-revoke"></div>
+      <div class="step-jump" id="jump-revoke"></div>
       <div class="diagram" id="diag-revoke"></div>
       <div id="app-status-revoke" class="app-status"></div>
       <div class="progress-row">
@@ -325,7 +349,7 @@
     </div>
 
     <p class="hint">
-      Login = auth dă acces. Revoke = auth retrage token-urile → sendm primește eveniment → sesiune distrusă → user văzut deconectat în app.
+      Login = ești în Super Admin → auth → revii logat. Revoke = auth retrage accesul → Super Admin te deconectează.
     </p>
   </div>
 
@@ -336,50 +360,72 @@
   <div class="toast" id="toast">Link copiat!</div>
 
   <script>
-    const NODE_ICONS = { user: "👤", app: "📱", auth: "🔐", portal: "⚙️" };
+    const NODE_ICONS = { app: "🖥️", auth: "🔐", portal: "⚙️" };
 
     const FLOWS = {
       browser: {
         nodes: [
-          { id: "user", label: "Utilizator", url: "" },
-          { id: "app", label: "App sendm", url: "app.dev.themarketer.dev" },
-          { id: "auth", label: "Auth", url: "auth.dev.themarketer.dev" },
+          { id: "app", label: "Super Admin", url: "sa.themarketer.com" },
+          { id: "auth", label: "Auth", url: "auth.themarketer.com" },
         ],
         steps: [
-          { active: "user", title: "Pas 1 — Login", text: "Apasă Login with theMarketerID.", meta: "Redirect către auth" },
-          { active: "auth", title: "Pas 2 — Auth", text: "Autentificare email / Google.", meta: "Identitate verificată" },
-          { active: "auth", title: "Pas 3 — Sesiune", text: "Cookie sesiune (sm_auth_session).", meta: "Browser → sendm" },
-          { active: "app", title: "Pas 4 — App", text: "User logat în theMarketer.", meta: "Acces activ", appState: "in" },
+          {
+            active: "app",
+            title: "Pas 1 — În aplicație",
+            text: "Ești deja în Super Admin. Pe ecranul de login vezi butonul „Login with theMarketerID”.",
+            meta: "sa.themarketer.com/login · neautentificat",
+            appState: "guest",
+          },
+          {
+            active: "app",
+            title: "Pas 2 — Click login",
+            text: "Apasă „Login with theMarketerID”. Browserul te duce la auth.",
+            meta: "Redirect către auth.themarketer.com",
+            appState: "guest",
+            showRedirectArrow: true,
+          },
+          {
+            active: "auth",
+            title: "Pas 3 — Auth",
+            text: "Autentificare email / Google. Auth verifică identitatea.",
+            meta: "Identitate verificată",
+          },
+          {
+            active: "app",
+            title: "Pas 4 — Logat în Super Admin",
+            text: "Revii în Super Admin — sesiune activă, acces complet.",
+            meta: "Acces activ",
+            appState: "in",
+            styles: { app: "connected" },
+          },
         ],
       },
       revoke: {
         nodes: [
-          { id: "user", label: "Utilizator", url: "" },
-          { id: "portal", label: "Auth portal", url: "Cont → Aplicații conectate" },
-          { id: "auth", label: "Auth", url: "auth.dev.themarketer.dev" },
-          { id: "app", label: "App sendm", url: "app.dev.themarketer.dev" },
+          { id: "app", label: "Super Admin", url: "sa.themarketer.com" },
+          { id: "auth", label: "Auth", url: "auth.themarketer.com" },
         ],
         steps: [
           {
             active: "app",
             title: "Pas 1 — Conectat",
-            text: "User e logat în app theMarketer (sendm). Token/sesiune validă.",
-            meta: "Stare: ACCES ACTIV",
+            text: "Ești logat în Super Admin. Sesiune validă, acces complet.",
+            meta: "sa.themarketer.com · ACCES ACTIV",
             appState: "in",
             styles: { app: "connected" },
           },
           {
-            active: "portal",
+            active: "auth",
             title: "Pas 2 — Portal auth",
-            text: "User deschide contul theMarketerID → Aplicații conectate.",
-            meta: "auth.dev — setări cont",
+            text: "Deschizi contul theMarketerID → Aplicații conectate (pe auth.themarketer.com).",
+            meta: "Cont → Aplicații conectate",
             appState: "in",
             styles: { app: "connected" },
           },
           {
-            active: "portal",
+            active: "auth",
             title: "Pas 3 — Revoke",
-            text: 'Apasă „Revoke access” / elimină acces pentru app sendm.',
+            text: 'Apasă „Revoke access” — elimini accesul Super Admin din lista de aplicații.',
             meta: "POST .../applications/{clientId}/revoke",
             appState: "in",
             styles: { app: "connected" },
@@ -395,7 +441,7 @@
           {
             active: "auth",
             title: "Pas 5 — Notificare",
-            text: "Auth trimite eveniment (NATS) către sendm: acces revocat.",
+            text: "Auth trimite eveniment (NATS) către Super Admin: acces revocat.",
             meta: "UserAccessRevoked",
             appState: "in",
             styles: { app: "connected" },
@@ -403,17 +449,17 @@
           },
           {
             active: "app",
-            title: "Pas 6 — Sendm reacționează",
-            text: "Sendm șterge sesiunile browser + cache introspect.",
+            title: "Pas 6 — Super Admin reacționează",
+            text: "Super Admin șterge sesiunile browser + cache introspect.",
             meta: "Backend — RevokeUserAccess listener",
             appState: "out",
             styles: { app: "revoked" },
           },
           {
             active: "app",
-            title: "Pas 7 — Deconectat în UI",
-            text: 'App primește realtime → toast „Access revoked” → redirect login.',
-            meta: "User vede că nu mai are acces",
+            title: "Pas 7 — Deconectat",
+            text: 'Super Admin primește realtime → toast „Access revoked” → redirect login.',
+            meta: "User vede ecranul de login",
             appState: "out",
             styles: { app: "revoked" },
           },
@@ -435,24 +481,27 @@
 
     function badgeFor(node, step) {
       if (node.id !== "app") return "";
+      if (step.appState === "guest") return '<span class="badge guest">În app · neautentificat</span>';
       if (step.appState === "in") return '<span class="badge ok">Conectat</span>';
       if (step.appState === "out") return '<span class="badge off">Deconectat</span>';
       return "";
     }
 
-    function renderDots(flowId) {
-      const wrap = document.getElementById("dots-" + flowId);
+    function renderStepJump(flowId) {
+      const wrap = document.getElementById("jump-" + flowId);
       const total = FLOWS[flowId].steps.length;
       const current = state[flowId];
-      wrap.innerHTML = "";
+      wrap.innerHTML =
+        '<span class="step-jump-label">Sari la pas:</span>';
       for (let i = 0; i < total; i++) {
-        const dot = document.createElement("button");
-        dot.type = "button";
-        dot.className = "dot" + (i === current ? " current" : i < current ? " done" : "");
-        dot.title = "Pas " + (i + 1);
-        dot.setAttribute("aria-label", "Pas " + (i + 1));
-        dot.addEventListener("click", () => setStep(flowId, i));
-        wrap.appendChild(dot);
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className =
+          "step-btn" + (i === current ? " current" : i < current ? " done" : "");
+        btn.textContent = "Pas " + (i + 1) + "/" + total;
+        btn.setAttribute("aria-label", "Pas " + (i + 1) + " din " + total);
+        btn.addEventListener("click", () => setStep(flowId, i));
+        wrap.appendChild(btn);
       }
     }
 
@@ -470,8 +519,21 @@
             step.showEventArrow &&
             flow.nodes[i - 1].id === "auth" &&
             node.id === "app";
-          arr.className = isEvent ? "arrow event pulse" : "arrow";
-          arr.textContent = isEvent ? "eveniment NATS →" : "→";
+          const isRedirect =
+            flowId === "browser" &&
+            step.showRedirectArrow &&
+            flow.nodes[i - 1].id === "app" &&
+            node.id === "auth";
+          arr.className = isEvent
+            ? "arrow event pulse"
+            : isRedirect
+              ? "arrow redirect"
+              : "arrow";
+          arr.textContent = isEvent
+            ? "eveniment NATS →"
+            : isRedirect
+              ? "redirect →"
+              : "→";
           wrap.appendChild(arr);
         }
         const el = document.createElement("div");
@@ -481,21 +543,24 @@
           '<div class="label">' + node.label + "</div>" +
           (node.url ? '<div class="url">' + node.url + "</div>" : "") +
           badgeFor(node, step);
-        el.addEventListener("click", () => {
-          const idx = flow.steps.findIndex((s) => s.active === node.id);
-          if (idx >= 0) setStep(flowId, idx);
-        });
         wrap.appendChild(el);
       });
+
+      if (step.showEventArrow && flowId === "revoke") {
+        const ev = document.createElement("div");
+        ev.className = "event-return";
+        ev.textContent = "Auth ── eveniment NATS ──→ Super Admin";
+        wrap.appendChild(ev);
+      }
 
       const statusEl = document.getElementById("app-status-" + flowId);
       if (statusEl) {
         statusEl.className = "app-status";
         if (step.appState === "in") {
-          statusEl.textContent = "App theMarketer: user CONECTAT (sesiune validă)";
+          statusEl.textContent = "Super Admin: user CONECTAT (sesiune validă)";
           statusEl.classList.add("show", "in");
         } else if (step.appState === "out") {
-          statusEl.textContent = "App theMarketer: user DECONECTAT (acces revocat din auth)";
+          statusEl.textContent = "Super Admin: user DECONECTAT (acces revocat din auth)";
           statusEl.classList.add("show", "out");
         }
       }
@@ -531,7 +596,7 @@
       document.getElementById("next-" + flowId).disabled =
         state[flowId] >= flow.steps.length - 1;
 
-      renderDots(flowId);
+      renderStepJump(flowId);
       renderDiagram(flowId);
       if (flowId === currentFlow) updateHash();
     }
