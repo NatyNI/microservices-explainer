@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Schematică interactivă Auth Service (DEV) — login browser și revoke acces." />
-  <title>Auth Service — schematic interactiv (DEV)</title>
+  <meta name="description" content="Schematică interactivă Auth Service — login browser și revoke acces." />
+  <title>Auth Service — schematic interactiv</title>
   <style>
     :root {
       --bg: #0f1117;
@@ -50,17 +50,6 @@
       transition: color 0.15s;
     }
     .back:hover { color: var(--accent); }
-    .env-pill {
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--active);
-      background: #152318;
-      border: 1px solid #2d5a3d;
-      padding: 4px 10px;
-      border-radius: 999px;
-    }
     .topbar-actions { display: flex; align-items: center; gap: 8px; }
     .brand-mark {
       font-size: 0.72rem;
@@ -136,6 +125,22 @@
       transform: scale(1.03);
     }
     .node .icon { font-size: 2.4rem; margin-bottom: 10px; line-height: 1; }
+    .node .icon-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      line-height: 1;
+    }
+    .node .icon-row .icon-emoji { font-size: 2.4rem; }
+    .node .icon-row .id-mark {
+      width: 36px;
+      height: 36px;
+      display: block;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0, 102, 224, 0.35);
+    }
     .node .label { font-weight: 700; font-size: 1.05rem; letter-spacing: -0.01em; }
     .badge {
       display: inline-block;
@@ -180,7 +185,10 @@
       letter-spacing: -0.02em;
     }
     .node-mockup .mock-btn {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
       margin-top: 8px;
       background: var(--tm-blue);
       color: #fff;
@@ -189,6 +197,11 @@
       padding: 6px 8px;
       border-radius: 999px;
       line-height: 1.2;
+    }
+    .node-mockup .mock-btn .id-mark {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
     }
     .node-mockup .mock-btn.emphasis {
       animation: pulse 1.2s ease infinite;
@@ -533,7 +546,6 @@
       <div class="topbar-actions">
         <span class="brand-mark">the<span>Marketer</span></span>
         <button type="button" class="ghost" id="present-toggle" style="padding:6px 12px;font-size:0.78rem;">Prezentare</button>
-        <span class="env-pill">DEV</span>
       </div>
     </div>
 
@@ -670,6 +682,19 @@
 
   <script>
     const NODE_ICONS = { app: "🖥️", auth: "🔐", portal: "⚙️" };
+    const ID_MARK = "assets/themarketer-id-mark.svg";
+
+    function nodeIconHtml(node) {
+      if (node.id === "auth") {
+        return (
+          '<div class="icon-row">' +
+          '<span class="icon-emoji">🔐</span>' +
+          '<img class="id-mark" src="' + ID_MARK + '" alt="theMarketerID" width="36" height="36" />' +
+          "</div>"
+        );
+      }
+      return '<div class="icon">' + (NODE_ICONS[node.id] || "•") + "</div>";
+    }
 
     const FLOWS = {
       browser: {
@@ -966,7 +991,9 @@
       return (
         '<div class="node-mockup">' +
         '<div class="mock-logo">theMarketer</div>' +
-        '<div class="mock-btn' + emph + '">Login with theMarketerID</div>' +
+        '<div class="mock-btn' + emph + '">' +
+        '<img class="id-mark" src="' + ID_MARK + '" alt="" width="14" height="14" />' +
+        "Login with theMarketerID</div>" +
         "</div>"
       );
     }
@@ -1072,7 +1099,7 @@
         const el = document.createElement("div");
         el.className = nodeClasses(node, step);
         el.innerHTML =
-          '<div class="icon">' + (NODE_ICONS[node.id] || "•") + "</div>" +
+          nodeIconHtml(node) +
           '<div class="label">' + node.label + "</div>" +
           nodeMockupFor(node, step) +
           nodeHintFor(node, step) +

@@ -3,24 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Schematici interactive pentru microserviciile theMarketer (DEV)." />
-  <title>Microservices Explainer — theMarketer DEV</title>
+  <meta name="description" content="Schematici interactive pentru microserviciile theMarketer." />
+  <title>Microservices Explainer — theMarketer</title>
   <style>
     :root {
-      --bg: #0f1117;
-      --surface: #1a1d27;
-      --border: #2d3348;
-      --text: #e8eaef;
+      --bg: #080b12;
+      --surface: rgba(22, 27, 38, 0.85);
+      --surface-solid: #161b26;
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #f0f2f6;
       --muted: #8b93a7;
-      --accent: #4f8ff7;
-      --accent-dim: #2a4570;
+      --tm-blue: #0066e0;
+      --tm-blue-light: #3d8ef0;
       --active: #3dd68c;
       --soon: #6b7280;
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
@@ -28,66 +29,165 @@
       flex-direction: column;
       overflow-x: hidden;
     }
+    .bg-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% -10%, rgba(0, 102, 224, 0.22), transparent 55%),
+        radial-gradient(ellipse 60% 40% at 90% 10%, rgba(61, 214, 140, 0.08), transparent 50%),
+        radial-gradient(ellipse 50% 30% at 50% 100%, rgba(0, 102, 224, 0.1), transparent 60%);
+    }
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black, transparent);
+    }
     .wrap {
+      position: relative;
+      z-index: 1;
       flex: 1;
-      max-width: 880px;
+      max-width: 920px;
       margin: 0 auto;
-      padding: 48px 24px 32px;
+      padding: 40px 24px 48px;
       width: 100%;
     }
-    .badge-env {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--active);
-      background: #152318;
-      border: 1px solid #2d5a3d;
-      padding: 4px 10px;
-      border-radius: 999px;
-      margin-bottom: 16px;
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
     }
-    h1 {
-      font-size: 1.75rem;
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--tm-blue), var(--tm-blue-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(0, 102, 224, 0.35);
+      flex-shrink: 0;
+    }
+    .logo-mark svg { width: 22px; height: 22px; }
+    .logo-text {
+      font-size: 1.15rem;
       font-weight: 700;
-      margin: 0 0 10px;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
     }
-    .sub {
+    .logo-text .tm { color: var(--tm-blue-light); }
+    .logo-sub {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 500;
       color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.6;
-      margin: 0 0 36px;
-      max-width: 560px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+    .hero { margin-bottom: 36px; }
+    .hero h1 {
+      font-size: clamp(1.75rem, 4vw, 2.35rem);
+      font-weight: 700;
+      margin: 0 0 12px;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      background: linear-gradient(135deg, #fff 0%, #b8c4d9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero .sub {
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.65;
+      margin: 0;
+      max-width: 520px;
     }
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 16px;
     }
     .card {
       background: var(--surface);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 22px 20px;
       text-decoration: none;
       color: inherit;
-      transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      min-height: 148px;
+      gap: 10px;
+      min-height: 168px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0, 102, 224, 0.06), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.2s;
     }
     a.card:hover {
-      border-color: var(--accent);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      border-color: rgba(0, 102, 224, 0.45);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(0, 102, 224, 0.15);
     }
+    a.card:hover::before { opacity: 1; }
     .card.disabled {
-      opacity: 0.55;
+      opacity: 0.45;
       cursor: default;
       pointer-events: none;
+      background: var(--surface-solid);
+    }
+    .card-icon {
+      width: auto;
+      min-width: 44px;
+      height: 44px;
+      padding: 0 10px;
+      border-radius: 12px;
+      background: rgba(0, 102, 224, 0.12);
+      border: 1px solid rgba(0, 102, 224, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 1.35rem;
+      margin-bottom: 4px;
+    }
+    .card-icon .id-mark {
+      width: 22px;
+      height: 22px;
+      display: block;
+    }
+    .card.disabled .card-icon {
+      background: rgba(255,255,255,0.04);
+      border-color: var(--border);
+      filter: grayscale(1);
     }
     .card-top {
       display: flex;
@@ -97,104 +197,136 @@
     }
     .card h2 {
       margin: 0;
-      font-size: 1.05rem;
+      font-size: 1.08rem;
       font-weight: 600;
+      letter-spacing: -0.01em;
     }
     .card p {
       margin: 0;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       color: var(--muted);
-      line-height: 1.5;
+      line-height: 1.55;
       flex: 1;
     }
     .tag {
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
-      padding: 3px 8px;
+      letter-spacing: 0.05em;
+      padding: 4px 9px;
       border-radius: 999px;
       white-space: nowrap;
     }
-    .tag.live { background: #1a3d28; color: var(--active); }
-    .tag.soon { background: #252830; color: var(--soon); }
-    .card-cta {
-      font-size: 0.85rem;
-      color: var(--accent);
-      font-weight: 500;
-      margin-top: 4px;
+    .tag.live {
+      background: rgba(61, 214, 140, 0.12);
+      color: var(--active);
+      border: 1px solid rgba(61, 214, 140, 0.25);
     }
+    .tag.soon {
+      background: rgba(255,255,255,0.04);
+      color: var(--soon);
+      border: 1px solid var(--border);
+    }
+    .card-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.84rem;
+      color: var(--tm-blue-light);
+      font-weight: 600;
+      margin-top: auto;
+      padding-top: 4px;
+    }
+    .card-cta svg {
+      width: 14px;
+      height: 14px;
+      transition: transform 0.15s;
+    }
+    a.card:hover .card-cta svg { transform: translateX(3px); }
     footer {
+      position: relative;
+      z-index: 1;
       text-align: center;
       padding: 24px;
       color: var(--muted);
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       border-top: 1px solid var(--border);
     }
-    footer a { color: var(--accent); text-decoration: none; }
+    footer a { color: var(--tm-blue-light); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
 
     @media (max-width: 720px) {
       .wrap {
-        padding: 28px 16px 24px;
+        padding: 28px 16px 32px;
         padding-left: max(16px, env(safe-area-inset-left));
         padding-right: max(16px, env(safe-area-inset-right));
       }
-      h1 { font-size: 1.35rem; }
-      .sub { font-size: 0.92rem; margin-bottom: 24px; }
-      .grid { grid-template-columns: 1fr; gap: 12px; }
-      .card {
-        min-height: auto;
-        padding: 18px 16px;
-      }
-      .card h2 { font-size: 1rem; }
-      .card p { font-size: 0.85rem; }
-      footer {
-        padding: 20px 16px;
-        padding-bottom: max(20px, env(safe-area-inset-bottom));
-        font-size: 0.78rem;
-      }
-    }
-
-    @media (max-width: 380px) {
-      h1 { font-size: 1.2rem; }
-      .badge-env { font-size: 0.65rem; }
+      .header { margin-bottom: 32px; }
+      .hero .sub { font-size: 0.92rem; }
+      .grid { grid-template-columns: 1fr; }
+      .card { min-height: auto; }
     }
   </style>
 </head>
 <body>
+  <div class="bg-glow" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+
   <div class="wrap">
-    <span class="badge-env">Environment · DEV</span>
-    <h1>Microservices Explainer</h1>
-    <p class="sub">
-      Schematici pas-cu-pas pentru fluxurile din theMarketer.
-      Click pe un serviciu — navighezi cu pașii sau tastele ← →.
-    </p>
+    <header class="header">
+      <a class="logo" href="index.html" aria-label="theMarketer">
+        <div class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 18V6l6 7 6-7v12" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div>
+          <span class="logo-text">the<span class="tm">Marketer</span></span>
+          <span class="logo-sub">Microservices Explainer</span>
+        </div>
+      </a>
+    </header>
+
+    <section class="hero">
+      <h1>Schematici interactive<br />pentru microservicii</h1>
+      <p class="sub">
+        Fluxuri pas-cu-pas pentru echipă — click pe un serviciu ca să deschizi schematica.
+      </p>
+    </section>
 
     <div class="grid">
       <a class="card" href="auth.html">
+        <div class="card-icon card-icon-auth" aria-hidden="true">
+          <span>🔐</span>
+          <img class="id-mark" src="assets/themarketer-id-mark.svg" alt="" width="22" height="22" />
+        </div>
         <div class="card-top">
           <h2>Auth Service</h2>
           <span class="tag live">Live</span>
         </div>
-        <p>Login, revoke și logout din Super Admin (sa.themarketer.com) — theMarketerID & auth.</p>
-        <span class="card-cta">Deschide schematica →</span>
+        <p>Login, revoke și logout din Super Admin — theMarketerID &amp; auth.</p>
+        <span class="card-cta">
+          Deschide schematica
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
       </a>
 
       <div class="card disabled">
+        <div class="card-icon" aria-hidden="true">📨</div>
         <div class="card-top">
           <h2>Notification</h2>
           <span class="tag soon">În curând</span>
         </div>
-        <p>Trimitere email/SMS, delivery logs, OAuth scopes — fluxuri API pe notification.dev.</p>
+        <p>Trimitere email/SMS, delivery logs, OAuth scopes.</p>
       </div>
 
       <div class="card disabled">
+        <div class="card-icon" aria-hidden="true">📊</div>
         <div class="card-top">
           <h2>Tracking</h2>
           <span class="tag soon">În curând</span>
         </div>
-        <p>Evenimente, pixeli, integrare cu app — schematică similară Auth.</p>
+        <p>Evenimente, pixeli, integrare cu app.</p>
       </div>
     </div>
   </div>

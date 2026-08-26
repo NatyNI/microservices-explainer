@@ -1,6 +1,6 @@
 # Microservices Explainer
 
-Schematică interactivă Auth (DEV) — login browser + revoke acces.
+Schematică interactivă Auth — login browser + revoke acces.
 
 ## Live (GitHub Pages)
 
