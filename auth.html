@@ -28,6 +28,7 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow-x: hidden;
     }
     .page { flex: 1; max-width: 960px; margin: 0 auto; padding: 24px; width: 100%; }
     .topbar {
@@ -114,7 +115,7 @@
     .node.revoked { border-color: var(--danger); background: var(--danger-dim); opacity: 0.85; }
     .node .icon { font-size: 1.4rem; margin-bottom: 4px; line-height: 1; }
     .node .label { font-weight: 600; font-size: 0.92rem; }
-    .node .url { font-size: 0.68rem; color: var(--muted); margin-top: 6px; line-height: 1.3; }
+    .node .url { font-size: 0.68rem; color: var(--muted); margin-top: 6px; line-height: 1.3; word-break: break-word; }
     .badge {
       display: inline-block;
       margin-top: 8px;
@@ -153,7 +154,7 @@
     .step-box h2 { margin: 0 0 8px; font-size: 1rem; color: var(--accent); }
     .step-box.revoke h2 { color: var(--danger); }
     .step-box p { margin: 0 0 6px; line-height: 1.55; font-size: 0.92rem; }
-    .step-box .meta { color: var(--muted); font-size: 0.82rem; font-family: ui-monospace, monospace; }
+    .step-box .meta { color: var(--muted); font-size: 0.82rem; font-family: ui-monospace, monospace; word-break: break-word; overflow-wrap: anywhere; }
     .progress-row {
       display: flex;
       align-items: center;
@@ -280,9 +281,88 @@
     }
     footer a { color: var(--accent); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
-    @media (max-width: 520px) {
+
+    @media (max-width: 720px) {
+      .page { padding: 16px; }
+      h1 { font-size: 1.15rem; }
+      .sub { font-size: 0.85rem; margin-bottom: 16px; }
+      .panel { padding: 16px; border-radius: 10px; }
+      .tabs { gap: 6px; }
+      .tab { flex: 1; text-align: center; padding: 10px 8px; font-size: 0.82rem; }
+      .step-jump {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(68px, 1fr));
+        gap: 6px;
+      }
+      .step-btn {
+        padding: 10px 6px;
+        font-size: 0.72rem;
+        text-align: center;
+        min-height: 40px;
+      }
+      .diagram {
+        flex-direction: column;
+        gap: 2px;
+        margin: 16px 0 8px;
+        min-height: auto;
+      }
+      .diagram .arrow {
+        transform: rotate(90deg);
+        padding: 2px 0;
+        line-height: 1;
+      }
+      .diagram .arrow.redirect,
+      .diagram .arrow.event {
+        transform: none;
+        font-size: 0.72rem;
+        max-width: none;
+        padding: 4px 0;
+      }
+      .node {
+        width: 100%;
+        max-width: 300px;
+        min-width: unset;
+        padding: 12px 14px;
+      }
+      .node.active { transform: none; }
+      .node .label { font-size: 0.88rem; }
+      .node .url { font-size: 0.65rem; }
+      .badge { font-size: 0.6rem; }
+      .step-box { padding: 14px 16px; }
+      .step-box h2 { font-size: 0.92rem; }
+      .step-box p { font-size: 0.86rem; }
+      .step-box .meta { font-size: 0.75rem; }
+      .app-status { font-size: 0.78rem; line-height: 1.45; }
+      .event-return { font-size: 0.72rem; padding: 0 4px; line-height: 1.4; }
+      .controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .controls button {
+        min-height: 44px;
+        font-size: 0.85rem;
+        padding: 10px 12px;
+      }
+      .controls button[id^="next-"] {
+        grid-column: 1 / -1;
+        order: -1;
+      }
       .kbd-hint { display: none; }
-      .node { min-width: 90px; padding: 10px 12px; }
+      .hint { font-size: 0.82rem; padding: 10px 12px; margin-top: 16px; }
+      .toast {
+        left: 16px;
+        right: 16px;
+        transform: translateY(80px);
+        text-align: center;
+      }
+      .toast.show { transform: translateY(0); }
+    }
+
+    @media (max-width: 380px) {
+      .step-jump { grid-template-columns: repeat(2, 1fr); }
+      .topbar { margin-bottom: 14px; }
+      .back { font-size: 0.8rem; }
     }
   </style>
 </head>

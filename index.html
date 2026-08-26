@@ -26,6 +26,7 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      overflow-x: hidden;
     }
     .wrap {
       flex: 1;
@@ -132,6 +133,33 @@
     }
     footer a { color: var(--accent); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 720px) {
+      .wrap {
+        padding: 28px 16px 24px;
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+      }
+      h1 { font-size: 1.35rem; }
+      .sub { font-size: 0.92rem; margin-bottom: 24px; }
+      .grid { grid-template-columns: 1fr; gap: 12px; }
+      .card {
+        min-height: auto;
+        padding: 18px 16px;
+      }
+      .card h2 { font-size: 1rem; }
+      .card p { font-size: 0.85rem; }
+      footer {
+        padding: 20px 16px;
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+        font-size: 0.78rem;
+      }
+    }
+
+    @media (max-width: 380px) {
+      h1 { font-size: 1.2rem; }
+      .badge-env { font-size: 0.65rem; }
+    }
   </style>
 </head>
 <body>
