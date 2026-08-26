@@ -4,16 +4,18 @@ Schematică interactivă Auth (DEV) — login browser + revoke acces.
 
 ## Live (GitHub Pages)
 
-După deploy: **https://nicolaenati.github.io/microservices-explainer/**
+După deploy: **https://natyni.github.io/microservices-explainer/**
 
 ## Local
 
-Deschide `index.html` în browser (dublu-click).
+- **Hub:** `index.html` — listă servicii
+- **Auth:** `auth.html` — schematica interactivă
 
-## Conținut
+## Conținut Auth
 
 - **Login browser** — theMarketerID → sesiune în app sendm
 - **Revoke acces** — eliminare din auth portal → deconectare în app
+- Navigare: butoane, taste ← →, dots, Auto ▶, link share (`#revoke/3`)
 
 ## GitHub Pages setup
 
