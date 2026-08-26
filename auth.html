@@ -129,6 +129,12 @@
     }
     .node.connected { border-color: var(--active); background: var(--connected); }
     .node.revoked { border-color: var(--danger); background: var(--danger-dim); opacity: 0.85; }
+    .node.revoked.active {
+      border-color: var(--danger);
+      background: var(--danger-dim);
+      box-shadow: 0 0 0 3px rgba(232, 93, 93, 0.2);
+      transform: scale(1.03);
+    }
     .node .icon { font-size: 2.4rem; margin-bottom: 10px; line-height: 1; }
     .node .label { font-weight: 700; font-size: 1.05rem; letter-spacing: -0.01em; }
     .badge {
@@ -896,8 +902,11 @@
           {
             active: "auth",
             title: "Pas 5 — Auth logout",
-            text: "Browser navighează la auth — sesiune theMarketerID distrusă.",
+            text: "Browser pe auth — sesiune theMarketerID distrusă.",
             meta: "auth.themarketer.com/logout",
+            authState: "out",
+            appState: "out",
+            styles: { app: "revoked", auth: "revoked" },
           },
           {
             active: "app",
@@ -905,7 +914,8 @@
             text: "Revii la login Super Admin.",
             meta: "sa.themarketer.com/login",
             appState: "out",
-            styles: { app: "revoked" },
+            authState: "out",
+            styles: { app: "revoked", auth: "revoked" },
             statusNote: "allApps",
           },
         ],
@@ -925,6 +935,11 @@
     }
 
     function badgeFor(node, step) {
+      if (node.id === "auth") {
+        if (step.authState === "out") return '<span class="badge off">Deconectat</span>';
+        if (step.authState === "in") return '<span class="badge ok">Conectat</span>';
+        return "";
+      }
       if (node.id !== "app") return "";
       if (step.showMockup || step.showLogoutModal || (step.nodeHints && step.nodeHints[node.id])) return "";
       if (step.appState === "guest") return '<span class="badge guest">Neautentificat</span>';
