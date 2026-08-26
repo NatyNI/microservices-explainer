@@ -245,6 +245,8 @@
       box-shadow: 0 0 0 2px rgba(0, 102, 224, 0.45);
     }
     .step-box.logout h2 { color: #e8a838; }
+    .step-box.migrate h2 { color: #e8a838; }
+    .diagram.three-nodes .node { max-width: 200px; min-width: 120px; flex: 1 1 120px; }
     .nats-return {
       display: none;
       align-items: center;
@@ -551,7 +553,7 @@
 
     <h1>Auth Service — schematic interactiv</h1>
     <p class="sub">
-      Navighează cu butoanele de pași sau ← →. Tab-uri: login, revoke, logout din Super Admin.
+      Navighează cu butoanele de pași. Tab <strong>Migrare parolă</strong> explică deploy-ul auth.
     </p>
 
     <div class="tabs">
@@ -559,6 +561,7 @@
       <button type="button" class="tab" data-flow="revoke">Revoke</button>
       <button type="button" class="tab" data-flow="logoutApp">Logout app</button>
       <button type="button" class="tab" data-flow="logoutComplete">Logout complet</button>
+      <button type="button" class="tab" data-flow="migrate">Migrare parolă</button>
     </div>
 
     <div id="panel-browser" class="panel active">
@@ -668,8 +671,35 @@
       </div>
     </div>
 
+    <div id="panel-migrate" class="panel">
+      <div class="progress-bar"><div class="progress-fill" id="bar-migrate"></div></div>
+      <div class="step-jump" id="jump-migrate"></div>
+      <div class="diagram-wrap">
+        <div class="diagram three-nodes" id="diag-migrate"></div>
+        <div class="nats-return" id="nats-migrate"></div>
+      </div>
+      <div id="app-status-migrate" class="app-status"></div>
+      <div class="progress-row">
+        <p class="progress" id="prog-migrate"></p>
+      </div>
+      <div class="step-box migrate" id="box-migrate">
+        <h2 id="title-migrate"></h2>
+        <p id="text-migrate"></p>
+        <p class="meta" id="meta-migrate"></p>
+        <ul class="step-summary" id="summary-migrate" hidden></ul>
+      </div>
+      <div class="controls">
+        <button type="button" class="ghost" id="prev-migrate">Înapoi</button>
+        <button type="button" id="next-migrate">Următorul pas</button>
+        <button type="button" class="ghost" id="play-migrate">Auto ▶</button>
+        <button type="button" class="ghost" id="reset-migrate">Reset</button>
+        <button type="button" class="ghost" id="share-migrate">Copiază link</button>
+        <span class="kbd-hint"><kbd>←</kbd> <kbd>→</kbd> navigare</span>
+      </div>
+    </div>
+
     <p class="hint">
-      Login = Super Admin → auth → logat. Revoke = auth retrage accesul. Logout app = doar SA. Logout complet = toate app-urile.
+      Login / logout / revoke = fluxuri zilnice. Migrare parolă = ce se întâmplă la deploy auth (același email, 2 parole vechi).
     </p>
   </div>
 
@@ -681,7 +711,7 @@
   <div class="sr-only" id="live-region" aria-live="polite" aria-atomic="true"></div>
 
   <script>
-    const NODE_ICONS = { app: "🖥️", auth: "🔐", portal: "⚙️" };
+    const NODE_ICONS = { app: "🖥️", sa: "🖥️", sendm: "📱", auth: "🔐", portal: "⚙️" };
     const ID_MARK = "assets/themarketer-id-mark.svg";
 
     function nodeIconHtml(node) {
@@ -945,15 +975,78 @@
           },
         ],
       },
+      migrate: {
+        summaryEnd: [
+          "Același email → o singură parolă în auth",
+          "Câștigă parola app-ului migrat PRIMUL",
+          "Nu știi parola? Forgot password pe auth.themarketer.com",
+        ],
+        nodes: [
+          { id: "sa", label: "Super Admin", url: "sa.themarketer.com" },
+          { id: "sendm", label: "App sendm", url: "app.themarketer.com" },
+          { id: "auth", label: "Auth", url: "auth.themarketer.com" },
+        ],
+        steps: [
+          {
+            active: "sa",
+            activeNodes: ["sa", "sendm"],
+            title: "Pas 1 — Înainte de auth",
+            text: "Același email, dar parole diferite în fiecare app.",
+            meta: "SA: parolă A · sendm: parolă B",
+            styles: { sa: "connected", sendm: "connected" },
+            nodeHints: {
+              sa: { text: "Parolă A" },
+              sendm: { text: "Parolă B" },
+            },
+          },
+          {
+            active: "auth",
+            title: "Pas 2 — Deploy auth",
+            text: "Echipa rulează migrarea (sync useri către auth).",
+            meta: "script auth:sync-…-to-auth-service",
+            showSyncArrow: true,
+            styles: { sa: "connected", sendm: "connected" },
+          },
+          {
+            active: "auth",
+            title: "Pas 3 — Primul sync câștigă",
+            text: "Exemplu: Super Admin migrat primul → auth primește Parola A.",
+            meta: "Cont nou în auth · password_hashed: true",
+            nodeHints: { auth: { text: "Parolă A (din SA)", emphasis: true } },
+            styles: { sa: "connected" },
+            statusNote: "firstWins",
+          },
+          {
+            active: "sendm",
+            title: "Pas 4 — Al doilea sync",
+            text: "App sendm sync: se adaugă roluri. Parola din auth NU se schimbă.",
+            meta: "existing user → syncRoles only",
+            nodeHints: { auth: { text: "Parolă A rămâne" } },
+            styles: { auth: "connected" },
+            showApiArrow: true,
+            statusNote: "secondNoPassword",
+          },
+          {
+            active: "auth",
+            title: "Pas 5 — După deploy",
+            text: "Login doar cu theMarketerID. O parolă pentru SA + sendm + restul.",
+            meta: "auth.themarketer.com · Forgot password dacă nu știi",
+            nodeHints: { auth: { text: "1 parolă · sursa de adevăr" } },
+          },
+        ],
+      },
     };
 
-    const state = { browser: 0, revoke: 0, logoutApp: 0, logoutComplete: 0 };
+    const state = { browser: 0, revoke: 0, logoutApp: 0, logoutComplete: 0, migrate: 0 };
     let currentFlow = "browser";
     let autoTimer = null;
 
     function nodeClasses(node, step) {
       let c = "node";
-      if (node.id === step.active) c += " active";
+      const isActive =
+        node.id === step.active ||
+        (step.activeNodes && step.activeNodes.indexOf(node.id) >= 0);
+      if (isActive) c += " active";
       if (step.styles && step.styles[node.id] === "connected") c += " connected";
       if (step.styles && step.styles[node.id] === "revoked") c += " revoked";
       return c;
@@ -1073,19 +1166,25 @@
             node.id === "auth";
           const isApi =
             step.showApiArrow &&
-            flow.nodes[i - 1].id === "app" &&
+            node.id === "auth" &&
+            (flow.nodes[i - 1].id === "app" || flow.nodes[i - 1].id === "sendm");
+          const isSync =
+            flowId === "migrate" &&
+            step.showSyncArrow &&
             node.id === "auth";
           arr.className = isEvent
             ? "arrow event pulse"
-            : isRedirect
+            : isRedirect || isSync
               ? "arrow redirect flow-active"
               : isApi
                 ? "arrow redirect flow-active"
                 : "arrow";
           if (isRedirect) {
             arr.textContent = "redirect →";
+          } else if (isSync) {
+            arr.textContent = "sync →";
           } else if (isApi) {
-            arr.textContent = "revoke →";
+            arr.textContent = "roluri →";
           } else if (isEvent) {
             arr.textContent = "→";
           } else {
@@ -1120,6 +1219,14 @@
           statusEl.textContent =
             "Super Admin: DECONECTAT · toate app-urile theMarketer OFF";
           statusEl.classList.add("show", "out");
+        } else if (step.statusNote === "firstWins") {
+          statusEl.textContent =
+            "Regulă: parola din auth = parola app-ului migrat PRIMUL (ex. SA → Parolă A)";
+          statusEl.classList.add("show", "in");
+        } else if (step.statusNote === "secondNoPassword") {
+          statusEl.textContent =
+            "Al doilea app (sendm) NU suprascrie parola — doar roluri în auth";
+          statusEl.classList.add("show", "in");
         } else if (step.appState === "in") {
           statusEl.textContent = "Super Admin: user CONECTAT (sesiune validă)";
           statusEl.classList.add("show", "in");
@@ -1146,6 +1253,8 @@
         currentFlow = "logoutApp";
       } else if (location.hash === "#logoutComplete") {
         currentFlow = "logoutComplete";
+      } else if (location.hash === "#migrate") {
+        currentFlow = "migrate";
       }
     }
 
