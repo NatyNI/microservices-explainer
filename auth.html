@@ -51,6 +51,28 @@
     }
     .back:hover { color: var(--accent); }
     .topbar-actions { display: flex; align-items: center; gap: 8px; }
+    .lang-switch {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .lang-switch button {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      padding: 6px 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+    }
+    .lang-switch button:hover { color: var(--text); }
+    .lang-switch button.active {
+      background: var(--accent-dim);
+      color: var(--text);
+    }
     .brand-mark {
       font-size: 0.72rem;
       font-weight: 700;
@@ -58,8 +80,7 @@
       letter-spacing: -0.02em;
     }
     .brand-mark span { color: var(--text); }
-    h1 { font-size: 1.35rem; font-weight: 600; margin: 0 0 6px; }
-    .sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 20px; max-width: 680px; line-height: 1.5; }
+    h1 { font-size: 1.35rem; font-weight: 600; margin: 0 0 20px; }
     .tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
     .tab {
       background: var(--surface);
@@ -244,6 +265,274 @@
       animation: pulse 1.2s ease infinite;
       box-shadow: 0 0 0 2px rgba(0, 102, 224, 0.45);
     }
+    .node.node-portal {
+      max-width: 320px;
+      min-width: 260px;
+      padding: 16px 14px 14px;
+    }
+    .node.node-portal .label { font-size: 0.82rem; margin-bottom: 2px; }
+    .node.node-portal .icon-row { margin-bottom: 6px; }
+    .node.node-portal .icon-row .icon-emoji { font-size: 1.6rem; }
+    .node.node-portal .icon-row .id-mark { width: 28px; height: 28px; }
+    .node-mockup-portal {
+      margin-top: 8px;
+      width: 100%;
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 10px 10px 8px;
+      text-align: left;
+      border: 1px solid #e2e8f0;
+    }
+    .node-mockup-portal .portal-title {
+      color: #0f172a;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    .node-mockup-portal .portal-intro {
+      color: #64748b;
+      font-size: 0.48rem;
+      line-height: 1.35;
+      margin-top: 4px;
+      margin-bottom: 8px;
+    }
+    .node-mockup-portal .portal-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 8px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+    }
+    .node-mockup-portal .portal-app-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .node-mockup-portal .portal-avatar {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #0066e0, #3d8ef0);
+      color: #fff;
+      font-size: 0.58rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .node-mockup-portal .portal-app-meta {
+      flex: 1;
+      min-width: 0;
+    }
+    .node-mockup-portal .portal-app-name {
+      color: #0f172a;
+      font-size: 0.54rem;
+      font-weight: 700;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .node-mockup-portal .portal-app-date {
+      color: #94a3b8;
+      font-size: 0.44rem;
+      margin-top: 2px;
+      line-height: 1.2;
+    }
+    .node-mockup-portal .portal-revoke-btn {
+      flex-shrink: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 4px 6px;
+      border-radius: 8px;
+      border: 1px solid #fecaca;
+      background: #fff;
+      color: #dc2626;
+      font-size: 0.42rem;
+      font-weight: 600;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+    .node-mockup-portal .portal-revoke-btn svg {
+      width: 10px;
+      height: 10px;
+      flex-shrink: 0;
+    }
+    .node-mockup-portal .portal-revoke-btn.emphasis {
+      background: #fef2f2;
+      border-color: #f87171;
+      animation: pulse 1.2s ease infinite;
+      box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.25);
+    }
+    .node-mockup-login {
+      margin-top: 8px;
+      width: 100%;
+      background: #fff;
+      border-radius: 10px;
+      padding: 10px 10px 8px;
+      text-align: left;
+      border: 1px solid #e2e8f0;
+    }
+    .node-mockup-login .login-title {
+      color: #0f172a;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .node-mockup-login .login-field {
+      margin-bottom: 6px;
+    }
+    .node-mockup-login .login-label {
+      display: block;
+      color: #64748b;
+      font-size: 0.42rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .node-mockup-login .login-input-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 4px 6px;
+    }
+    .node-mockup-login .login-input-row.ok {
+      border-color: #86efac;
+      background: #f0fdf4;
+    }
+    .node-mockup-login .login-value {
+      flex: 1;
+      color: #0f172a;
+      font-size: 0.44rem;
+      line-height: 1.2;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .node-mockup-login .login-check {
+      flex-shrink: 0;
+      width: 14px;
+      height: 14px;
+      border-radius: 999px;
+      background: #22c55e;
+      color: #fff;
+      font-size: 0.42rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+    .node-mockup-login .login-success {
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 5px 6px;
+      border-radius: 8px;
+      background: #dcfce7;
+      border: 1px solid #86efac;
+      color: #15803d;
+      font-size: 0.44rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .node-mockup-branch {
+      margin-top: 8px;
+      width: 100%;
+      background: #fff;
+      border-radius: 10px;
+      padding: 8px;
+      text-align: left;
+      border: 1px solid #e2e8f0;
+    }
+    .node-mockup-branch .branch-heading {
+      color: #0f172a;
+      font-size: 0.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+    .node-mockup-branch .branch-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .node-mockup-branch .branch-col {
+      border-radius: 8px;
+      padding: 6px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+    }
+    .node-mockup-branch .branch-col.with-session {
+      border-color: #86efac;
+      background: #f0fdf4;
+    }
+    .node-mockup-branch .branch-col-title {
+      font-size: 0.44rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 2px;
+    }
+    .node-mockup-branch .branch-col-desc {
+      font-size: 0.4rem;
+      color: #64748b;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+    .node-mockup-branch .branch-field {
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      border-radius: 5px;
+      padding: 3px 5px;
+      font-size: 0.38rem;
+      color: #475569;
+      margin-bottom: 4px;
+    }
+    .node-mockup-branch .branch-google {
+      font-size: 0.38rem;
+      color: #64748b;
+      text-align: center;
+      margin-top: 2px;
+    }
+    .node-mockup-branch .branch-session-ok {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px;
+      border-radius: 6px;
+      background: #dcfce7;
+      border: 1px solid #86efac;
+      color: #15803d;
+      font-size: 0.4rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .node-mockup-branch .branch-skip {
+      font-size: 0.38rem;
+      color: #15803d;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+    .node-mockup-branch .branch-foot {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed #cbd5e1;
+      font-size: 0.38rem;
+      color: #475569;
+      text-align: center;
+      line-height: 1.3;
+    }
     .step-box.logout h2 { color: #e8a838; }
     .step-box.migrate h2 { color: #e8a838; }
     .diagram.three-nodes .node { max-width: 200px; min-width: 120px; flex: 1 1 120px; }
@@ -291,6 +580,138 @@
       line-height: 1.6;
     }
     .step-summary li { margin-bottom: 4px; }
+    .step-checklist {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .step-checklist[hidden] { display: none; }
+    .checklist-col { font-size: 0.82rem; line-height: 1.45; }
+    .checklist-label {
+      font-weight: 700;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+    .checklist-col.gets .checklist-label { color: #4ade80; }
+    .checklist-col.not-gets .checklist-label { color: #f87171; }
+    .checklist-col ul {
+      margin: 0;
+      padding: 0 0 0 16px;
+      color: var(--text);
+    }
+    .checklist-col li { margin-bottom: 3px; }
+    .checklist-col.not-gets:only-child,
+    .step-checklist.single-col { grid-template-columns: 1fr; }
+    .scenario-jump {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0 4px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+    .scenario-jump[hidden] { display: none; }
+    .scenario-jump-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .scenario-btn {
+      font: inherit;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .scenario-btn:hover { border-color: var(--accent); color: var(--text); }
+    .scenario-btn.active {
+      border-color: #5eb3ff;
+      background: var(--accent);
+      color: #ffffff;
+      box-shadow: 0 0 0 1px rgba(94, 179, 255, 0.35);
+    }
+    .node-mockup-single {
+      margin-top: 8px;
+      width: 100%;
+      background: #fff;
+      border-radius: 10px;
+      padding: 8px;
+      text-align: left;
+      border: 1px solid #e2e8f0;
+    }
+    .node-mockup-single.with-session {
+      border-color: #86efac;
+      background: #f0fdf4;
+    }
+    .node-mockup-single .single-title {
+      font-size: 0.48rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+    .node-mockup-single .single-desc {
+      font-size: 0.42rem;
+      color: #64748b;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+    .node-mockup-single .single-field {
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      border-radius: 5px;
+      padding: 3px 5px;
+      font-size: 0.4rem;
+      color: #475569;
+      margin-bottom: 4px;
+    }
+    .node-mockup-single.with-session .single-field { background: #fff; }
+    .node-mockup-single .single-google {
+      font-size: 0.4rem;
+      color: #64748b;
+      text-align: center;
+      margin-top: 2px;
+    }
+    .node-mockup-single .single-session-ok {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px;
+      border-radius: 6px;
+      background: #dcfce7;
+      border: 1px solid #86efac;
+      color: #15803d;
+      font-size: 0.42rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .node-mockup-single .single-skip {
+      font-size: 0.4rem;
+      color: #15803d;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+    .node-mockup-single .single-foot {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed #cbd5e1;
+      font-size: 0.4rem;
+      color: #475569;
+      text-align: center;
+      line-height: 1.3;
+    }
     .sr-only {
       position: absolute;
       width: 1px;
@@ -306,7 +727,6 @@
     body.present footer { display: none; }
     body.present .page { max-width: 1100px; padding: 32px; }
     body.present h1 { font-size: 1.6rem; }
-    body.present .sub { font-size: 1rem; }
     body.present .panel { padding: 32px; }
     body.present .node { max-width: 300px; padding: 32px 24px; }
     body.present .node .icon { font-size: 3rem; }
@@ -327,15 +747,6 @@
     .step-box.revoke h2 { color: var(--danger); }
     .step-box p { margin: 0 0 6px; line-height: 1.55; font-size: 0.92rem; }
     .step-box .meta { color: var(--muted); font-size: 0.82rem; font-family: ui-monospace, monospace; word-break: break-word; overflow-wrap: anywhere; }
-    .progress-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 10px;
-      flex-wrap: wrap;
-    }
-    .progress { color: var(--muted); font-size: 0.85rem; margin: 0; }
     .progress-bar {
       height: 4px;
       background: var(--border);
@@ -457,7 +868,6 @@
     @media (max-width: 720px) {
       .page { padding: 16px; }
       h1 { font-size: 1.15rem; }
-      .sub { font-size: 0.85rem; margin-bottom: 16px; }
       .panel { padding: 16px; border-radius: 10px; }
       .tabs { gap: 6px; }
       .tab { flex: 1; text-align: center; padding: 10px 8px; font-size: 0.82rem; }
@@ -472,6 +882,9 @@
         text-align: center;
         min-height: 40px;
       }
+      .scenario-jump { padding: 8px; gap: 6px; }
+      .scenario-btn { flex: 1 1 auto; min-height: 36px; }
+      .step-checklist { grid-template-columns: 1fr; gap: 12px; }
       .diagram {
         flex-direction: column;
         gap: 2px;
@@ -544,21 +957,19 @@
 <body>
   <div class="page">
     <div class="topbar">
-      <a class="back" href="index.html">← Toate serviciile</a>
+      <a class="back" id="back-link" href="index.html">← Toate serviciile</a>
       <div class="topbar-actions">
+        <div id="lang-switch"></div>
         <span class="brand-mark">the<span>Marketer</span></span>
         <button type="button" class="ghost" id="present-toggle" style="padding:6px 12px;font-size:0.78rem;">Prezentare</button>
       </div>
     </div>
 
-    <h1>Auth Service — schematic interactiv</h1>
-    <p class="sub">
-      Navighează cu butoanele de pași. Tab <strong>Migrare parolă</strong> explică deploy-ul auth.
-    </p>
+    <h1 id="page-h1">Auth Service — schematic interactiv</h1>
 
     <div class="tabs">
       <button type="button" class="tab active" data-flow="browser">Login</button>
-      <button type="button" class="tab" data-flow="revoke">Revoke</button>
+      <button type="button" class="tab" data-flow="revoke">Revoke din SA</button>
       <button type="button" class="tab" data-flow="logoutApp">Logout app</button>
       <button type="button" class="tab" data-flow="logoutComplete">Logout complet</button>
       <button type="button" class="tab" data-flow="migrate">Migrare parolă</button>
@@ -567,18 +978,16 @@
     <div id="panel-browser" class="panel active">
       <div class="progress-bar"><div class="progress-fill" id="bar-browser"></div></div>
       <div class="step-jump" id="jump-browser"></div>
+      <div class="scenario-jump" id="scenario-browser"></div>
       <div class="diagram-wrap">
         <div class="diagram" id="diag-browser"></div>
         <div class="nats-return" id="nats-browser"></div>
       </div>
-      <div class="progress-row">
-        <p class="progress" id="prog-browser"></p>
-      </div>
+      <div id="app-status-browser" class="app-status"></div>
       <div class="step-box" id="box-browser">
         <h2 id="title-browser"></h2>
         <p id="text-browser"></p>
         <p class="meta" id="meta-browser"></p>
-        <ul class="step-summary" id="summary-browser" hidden></ul>
       </div>
       <div class="controls">
         <button type="button" class="ghost" id="prev-browser">Înapoi</button>
@@ -598,14 +1007,10 @@
         <div class="nats-return" id="nats-revoke"></div>
       </div>
       <div id="app-status-revoke" class="app-status"></div>
-      <div class="progress-row">
-        <p class="progress" id="prog-revoke"></p>
-      </div>
       <div class="step-box revoke" id="box-revoke">
         <h2 id="title-revoke"></h2>
         <p id="text-revoke"></p>
         <p class="meta" id="meta-revoke"></p>
-        <ul class="step-summary" id="summary-revoke" hidden></ul>
       </div>
       <div class="controls">
         <button type="button" class="ghost" id="prev-revoke">Înapoi</button>
@@ -625,14 +1030,10 @@
         <div class="nats-return" id="nats-logoutApp"></div>
       </div>
       <div id="app-status-logoutApp" class="app-status"></div>
-      <div class="progress-row">
-        <p class="progress" id="prog-logoutApp"></p>
-      </div>
       <div class="step-box logout" id="box-logoutApp">
         <h2 id="title-logoutApp"></h2>
         <p id="text-logoutApp"></p>
         <p class="meta" id="meta-logoutApp"></p>
-        <ul class="step-summary" id="summary-logoutApp" hidden></ul>
       </div>
       <div class="controls">
         <button type="button" class="ghost" id="prev-logoutApp">Înapoi</button>
@@ -652,14 +1053,10 @@
         <div class="nats-return" id="nats-logoutComplete"></div>
       </div>
       <div id="app-status-logoutComplete" class="app-status"></div>
-      <div class="progress-row">
-        <p class="progress" id="prog-logoutComplete"></p>
-      </div>
       <div class="step-box logout" id="box-logoutComplete">
         <h2 id="title-logoutComplete"></h2>
         <p id="text-logoutComplete"></p>
         <p class="meta" id="meta-logoutComplete"></p>
-        <ul class="step-summary" id="summary-logoutComplete" hidden></ul>
       </div>
       <div class="controls">
         <button type="button" class="ghost" id="prev-logoutComplete">Înapoi</button>
@@ -679,14 +1076,10 @@
         <div class="nats-return" id="nats-migrate"></div>
       </div>
       <div id="app-status-migrate" class="app-status"></div>
-      <div class="progress-row">
-        <p class="progress" id="prog-migrate"></p>
-      </div>
       <div class="step-box migrate" id="box-migrate">
         <h2 id="title-migrate"></h2>
         <p id="text-migrate"></p>
         <p class="meta" id="meta-migrate"></p>
-        <ul class="step-summary" id="summary-migrate" hidden></ul>
       </div>
       <div class="controls">
         <button type="button" class="ghost" id="prev-migrate">Înapoi</button>
@@ -698,9 +1091,6 @@
       </div>
     </div>
 
-    <p class="hint">
-      Login / logout / revoke = fluxuri zilnice. Migrare parolă = ce se întâmplă la deploy auth (același email, 2 parole vechi).
-    </p>
   </div>
 
   <footer>
@@ -710,6 +1100,7 @@
   <div class="toast" id="toast">Link copiat!</div>
   <div class="sr-only" id="live-region" aria-live="polite" aria-atomic="true"></div>
 
+  <script src="assets/i18n.js"></script>
   <script>
     const NODE_ICONS = { app: "🖥️", sa: "🖥️", sendm: "📱", auth: "🔐", portal: "⚙️" };
     const ID_MARK = "assets/themarketer-id-mark.svg";
@@ -726,320 +1117,92 @@
       return '<div class="icon">' + (NODE_ICONS[node.id] || "•") + "</div>";
     }
 
-    const FLOWS = {
-      browser: {
-        summaryEnd: [
-          "Super Admin → click Login with theMarketerID",
-          "Auth verifică identitatea (email / Google)",
-          "Revii logat pe sa.themarketer.com",
-        ],
-        nodes: [
-          { id: "app", label: "Super Admin", url: "sa.themarketer.com" },
-          { id: "auth", label: "Auth", url: "auth.themarketer.com" },
-        ],
-        steps: [
-          {
-            active: "app",
-            title: "Pas 1 — În aplicație",
-            text: "Ecran login Super Admin.",
-            meta: "sa.themarketer.com/login",
-            appState: "guest",
-            showMockup: { emphasis: false },
-          },
-          {
-            active: "app",
-            title: "Pas 2 — Click login",
-            text: "Apasă butonul de login.",
-            meta: "→ auth.themarketer.com",
-            appState: "guest",
-            showRedirectArrow: true,
-            showMockup: { emphasis: true },
-          },
-          {
-            active: "auth",
-            title: "Pas 3 — Auth",
-            text: "Autentificare email / Google.",
-            meta: "auth.themarketer.com · cookie sm_auth_session",
-          },
-          {
-            active: "app",
-            title: "Pas 4 — Logat",
-            text: "Revii în Super Admin — sesiune activă.",
-            meta: "sa.themarketer.com · conectat",
-            appState: "in",
-            styles: { app: "connected" },
-          },
-        ],
-      },
-      revoke: {
-        summaryEnd: [
-          "Revoke din auth.themarketer.com → Aplicații conectate",
-          "Auth trimite NATS către Super Admin",
-          "User deconectat — redirect la login",
-        ],
-        nodes: [
-          { id: "app", label: "Super Admin", url: "sa.themarketer.com" },
-          { id: "auth", label: "Auth", url: "auth.themarketer.com" },
-        ],
-        steps: [
-          {
-            active: "app",
-            title: "Pas 1 — Conectat",
-            text: "Logat în Super Admin.",
-            meta: "sa.themarketer.com",
-            appState: "in",
-            styles: { app: "connected" },
-          },
-          {
-            active: "auth",
-            title: "Pas 2 — Portal auth",
-            text: "theMarketerID → Aplicații conectate.",
-            meta: "auth.themarketer.com",
-            appState: "in",
-            styles: { app: "connected" },
-            nodeHints: { auth: { text: "Aplicații conectate" } },
-          },
-          {
-            active: "auth",
-            title: "Pas 3 — Revoke",
-            text: 'Elimini accesul Super Admin.',
-            meta: "Revoke access",
-            appState: "in",
-            styles: { app: "connected" },
-            nodeHints: { auth: { text: "Revoke access", emphasis: true } },
-          },
-          {
-            active: "auth",
-            title: "Pas 4 — Auth revocă",
-            text: "Token-uri revocate.",
-            meta: "introspect → active: false",
-            appState: "in",
-            styles: { app: "connected" },
-          },
-          {
-            active: "auth",
-            title: "Pas 5 — Notificare",
-            text: "Eveniment NATS către Super Admin.",
-            meta: "UserAccessRevoked",
-            appState: "in",
-            styles: { app: "connected" },
-            showEventArrow: true,
-          },
-          {
-            active: "app",
-            title: "Pas 6 — Super Admin",
-            text: "Șterge sesiunile.",
-            meta: "RevokeUserAccess",
-            appState: "out",
-            styles: { app: "revoked" },
-          },
-          {
-            active: "app",
-            title: "Pas 7 — Deconectat",
-            text: 'Redirect la login.',
-            meta: "Access revoked",
-            appState: "out",
-            styles: { app: "revoked" },
-          },
-        ],
-      },
-      logoutApp: {
-        summaryEnd: [
-          "theMarketer Logout = doar Super Admin",
-          "Token revocat · cookie șters",
-          "Alte app-uri theMarketer rămân logate",
-        ],
-        nodes: [
-          { id: "app", label: "Super Admin", url: "sa.themarketer.com" },
-          { id: "auth", label: "Auth", url: "auth.themarketer.com" },
-        ],
-        steps: [
-          {
-            active: "app",
-            title: "Pas 1 — Conectat",
-            text: "Ești logat în Super Admin.",
-            meta: "sa.themarketer.com",
-            appState: "in",
-            styles: { app: "connected" },
-          },
-          {
-            active: "app",
-            title: "Pas 2 — Click Logout",
-            text: "Din meniu apeși Logout — apare modalul.",
-            meta: "Logout Confirmation",
-            appState: "in",
-            styles: { app: "connected" },
-            showLogoutModal: true,
-          },
-          {
-            active: "app",
-            title: "Pas 3 — theMarketer Logout",
-            text: "Alegi theMarketer Logout — doar din această app.",
-            meta: "POST /logout · hard: false",
-            appState: "in",
-            styles: { app: "connected" },
-            showLogoutModal: true,
-            logoutChoice: "app",
-          },
-          {
-            active: "app",
-            title: "Pas 4 — Super Admin",
-            text: "Backend revocă token-ul și șterge cookie-ul local.",
-            meta: "sm_auth_session distrus",
-            appState: "in",
-            styles: { app: "connected" },
-            showApiArrow: true,
-          },
-          {
-            active: "auth",
-            title: "Pas 5 — Auth",
-            text: "Auth primește revokeToken — token invalid.",
-            meta: "auth.themarketer.com",
-          },
-          {
-            active: "app",
-            title: "Pas 6 — Deconectat din SA",
-            text: "Redirect la login Super Admin.",
-            meta: "sa.themarketer.com/login",
-            appState: "out",
-            styles: { app: "revoked" },
-            statusNote: "otherApps",
-          },
-        ],
-      },
-      logoutComplete: {
-        summaryEnd: [
-          "Complete Logout = toate app-urile",
-          "Browser → auth.themarketer.com/logout",
-          "Sesiune theMarketerID distrusă peste tot",
-        ],
-        nodes: [
-          { id: "app", label: "Super Admin", url: "sa.themarketer.com" },
-          { id: "auth", label: "Auth", url: "auth.themarketer.com" },
-        ],
-        steps: [
-          {
-            active: "app",
-            title: "Pas 1 — Conectat",
-            text: "Ești logat în Super Admin.",
-            meta: "sa.themarketer.com",
-            appState: "in",
-            styles: { app: "connected" },
-          },
-          {
-            active: "app",
-            title: "Pas 2 — Click Logout",
-            text: "Din meniu apeși Logout — apare modalul.",
-            meta: "Logout Confirmation",
-            appState: "in",
-            styles: { app: "connected" },
-            showLogoutModal: true,
-          },
-          {
-            active: "app",
-            title: "Pas 3 — Complete Logout",
-            text: "Alegi Complete Logout — din toate app-urile.",
-            meta: "POST /logout · hard: true",
-            appState: "in",
-            styles: { app: "connected" },
-            showLogoutModal: true,
-            logoutChoice: "complete",
-          },
-          {
-            active: "app",
-            title: "Pas 4 — Super Admin",
-            text: "Backend revocă token + returnează logoutUrl.",
-            meta: "logoutUrl → auth.themarketer.com/logout",
-            appState: "in",
-            styles: { app: "connected" },
-            showRedirectArrow: true,
-          },
-          {
-            active: "auth",
-            title: "Pas 5 — Auth logout",
-            text: "Browser pe auth — sesiune theMarketerID distrusă.",
-            meta: "auth.themarketer.com/logout",
-            authState: "out",
-            appState: "out",
-            styles: { app: "revoked", auth: "revoked" },
-          },
-          {
-            active: "app",
-            title: "Pas 6 — Deconectat peste tot",
-            text: "Revii la login Super Admin.",
-            meta: "sa.themarketer.com/login",
-            appState: "out",
-            authState: "out",
-            styles: { app: "revoked", auth: "revoked" },
-            statusNote: "allApps",
-          },
-        ],
-      },
-      migrate: {
-        summaryEnd: [
-          "Același email → o singură parolă în auth",
-          "Câștigă parola app-ului migrat PRIMUL",
-          "Nu știi parola? Forgot password pe auth.themarketer.com",
-        ],
-        nodes: [
-          { id: "sa", label: "Super Admin", url: "sa.themarketer.com" },
-          { id: "sendm", label: "App sendm", url: "app.themarketer.com" },
-          { id: "auth", label: "Auth", url: "auth.themarketer.com" },
-        ],
-        steps: [
-          {
-            active: "sa",
-            activeNodes: ["sa", "sendm"],
-            title: "Pas 1 — Înainte de auth",
-            text: "Același email, dar parole diferite în fiecare app.",
-            meta: "SA: parolă A · sendm: parolă B",
-            styles: { sa: "connected", sendm: "connected" },
-            nodeHints: {
-              sa: { text: "Parolă A" },
-              sendm: { text: "Parolă B" },
-            },
-          },
-          {
-            active: "auth",
-            title: "Pas 2 — Deploy auth",
-            text: "Echipa rulează migrarea (sync useri către auth).",
-            meta: "script auth:sync-…-to-auth-service",
-            showSyncArrow: true,
-            styles: { sa: "connected", sendm: "connected" },
-          },
-          {
-            active: "auth",
-            title: "Pas 3 — Primul sync câștigă",
-            text: "Exemplu: Super Admin migrat primul → auth primește Parola A.",
-            meta: "Cont nou în auth · password_hashed: true",
-            nodeHints: { auth: { text: "Parolă A (din SA)", emphasis: true } },
-            styles: { sa: "connected" },
-            statusNote: "firstWins",
-          },
-          {
-            active: "sendm",
-            title: "Pas 4 — Al doilea sync",
-            text: "App sendm sync: se adaugă roluri. Parola din auth NU se schimbă.",
-            meta: "existing user → syncRoles only",
-            nodeHints: { auth: { text: "Parolă A rămâne" } },
-            styles: { auth: "connected" },
-            showApiArrow: true,
-            statusNote: "secondNoPassword",
-          },
-          {
-            active: "auth",
-            title: "Pas 5 — După deploy",
-            text: "Login doar cu theMarketerID. O parolă pentru SA + sendm + restul.",
-            meta: "auth.themarketer.com · Forgot password dacă nu știi",
-            nodeHints: { auth: { text: "1 parolă · sursa de adevăr" } },
-          },
-        ],
-      },
-    };
+    function getUi() {
+      return ExplainerI18n.ui("auth");
+    }
 
-    const state = { browser: 0, revoke: 0, logoutApp: 0, logoutComplete: 0, migrate: 0 };
-    let currentFlow = "browser";
+    let FLOWS = ExplainerI18n.flows();
+
+    function applyPageLang() {
+      const u = getUi();
+      document.title = u.title;
+      const meta = document.querySelector('meta[name="description"]');
+      if (meta) meta.setAttribute("content", u.metaDescription);
+      document.getElementById("back-link").textContent = u.back;
+      document.getElementById("page-h1").textContent = u.title;
+      document.querySelectorAll(".tab").forEach(function (tab) {
+        tab.textContent = u.tabs[tab.dataset.flow];
+      });
+      PANEL_IDS.forEach(function (panelId) {
+        document.getElementById("prev-" + panelId).textContent = u.prev;
+        document.getElementById("next-" + panelId).textContent = u.next;
+        document.getElementById("reset-" + panelId).textContent = u.reset;
+        document.getElementById("share-" + panelId).textContent = u.share;
+        const playBtn = document.getElementById("play-" + panelId);
+        const playFlow = panelId === "browser" ? currentFlow : panelId;
+        if (!autoTimer || !isActiveFlow(playFlow)) {
+          playBtn.textContent = u.play;
+        }
+      });
+      const presentBtn = document.getElementById("present-toggle");
+      presentBtn.textContent = document.body.classList.contains("present")
+        ? u.presentExit
+        : u.present;
+    }
+
+    function reloadLang() {
+      FLOWS = ExplainerI18n.flows();
+      applyPageLang();
+      Object.keys(FLOWS).forEach(function (flowId) {
+        if (isLoginFlow(flowId) && flowId !== currentFlow) return;
+        renderStep(flowId);
+      });
+      switchFlow(isLoginFlow(currentFlow) ? "browser" : currentFlow);
+    }
+
+    const LOGIN_FLOWS = ["browserNoSession", "browserWithSession"];
+    const PANEL_IDS = ["browser", "revoke", "logoutApp", "logoutComplete", "migrate"];
+    const state = {
+      browserNoSession: 0,
+      browserWithSession: 0,
+      revoke: 0,
+      logoutApp: 0,
+      logoutComplete: 0,
+      migrate: 0,
+    };
+    let currentFlow = "browserNoSession";
     let autoTimer = null;
+    let autoPlayFlow = null;
+
+    function isLoginFlow(flowId) {
+      return LOGIN_FLOWS.indexOf(flowId) >= 0;
+    }
+
+    function panelIdForFlow(flowId) {
+      return isLoginFlow(flowId) ? "browser" : flowId;
+    }
+
+    function isActiveFlow(flowId) {
+      return currentFlow === flowId;
+    }
+
+    function activeFlowForPanel(panelId) {
+      if (panelId === "browser") {
+        return isLoginFlow(currentFlow) ? currentFlow : "browserNoSession";
+      }
+      return panelId;
+    }
+
+    function switchLoginScenario(flowId) {
+      clearInterval(autoTimer);
+      autoTimer = null;
+      autoPlayFlow = null;
+      document.getElementById("play-browser").textContent = getUi().play;
+      currentFlow = flowId;
+      state[flowId] = 0;
+      renderStep(flowId);
+      updateHash();
+    }
 
     function nodeClasses(node, step) {
       let c = "node";
@@ -1049,33 +1212,182 @@
       if (isActive) c += " active";
       if (step.styles && step.styles[node.id] === "connected") c += " connected";
       if (step.styles && step.styles[node.id] === "revoked") c += " revoked";
+      if (node.id === "auth" && (step.showConnectedAppsMockup || step.showLoginVerifyMockup || step.showLoginNoSessionMockup || step.showLoginWithSessionMockup))
+        c += " node-portal";
       return c;
     }
 
     function badgeFor(node, step) {
+      const b = getUi().badges;
       if (node.id === "auth") {
-        if (step.authState === "out") return '<span class="badge off">Deconectat</span>';
-        if (step.authState === "in") return '<span class="badge ok">Conectat</span>';
+        if (step.showLoginVerifyMockup || step.showLoginNoSessionMockup || step.showLoginWithSessionMockup) return "";
+        if (step.authState === "out")
+          return '<span class="badge off">' + b.disconnected + "</span>";
+        if (step.authState === "in")
+          return '<span class="badge ok">' + b.connected + "</span>";
         return "";
       }
       if (node.id !== "app") return "";
-      if (step.showMockup || step.showLogoutModal || (step.nodeHints && step.nodeHints[node.id])) return "";
-      if (step.appState === "guest") return '<span class="badge guest">Neautentificat</span>';
-      if (step.appState === "in") return '<span class="badge ok">Conectat</span>';
-      if (step.appState === "out") return '<span class="badge off">Deconectat</span>';
+      if (step.showMockup || step.showLogoutModal || (step.nodeHints && step.nodeHints[node.id]))
+        return "";
+      if (step.appState === "guest")
+        return '<span class="badge guest">' + b.guest + "</span>";
+      if (step.appState === "in")
+        return '<span class="badge ok">' + b.connected + "</span>";
+      if (step.appState === "out")
+        return '<span class="badge off">' + b.disconnected + "</span>";
       return "";
     }
 
+    function connectedAppsMockupHtml_(emphasis) {
+      const c = getUi().mockup.connectedApps;
+      const btnClass = "portal-revoke-btn" + (emphasis ? " emphasis" : "");
+      const revokeIcon =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">' +
+        '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>' +
+        '<path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>' +
+        '<line x1="4" y1="4" x2="20" y2="20"/>' +
+        "</svg>";
+      return (
+        '<div class="node-mockup node-mockup-portal">' +
+        '<div class="portal-title">' +
+        c.title +
+        "</div>" +
+        '<div class="portal-intro">' +
+        c.intro +
+        "</div>" +
+        '<div class="portal-card">' +
+        '<div class="portal-app-row">' +
+        '<span class="portal-avatar" aria-hidden="true">S</span>' +
+        '<div class="portal-app-meta">' +
+        '<div class="portal-app-name">' +
+        c.appName +
+        "</div>" +
+        '<div class="portal-app-date">' +
+        c.grantedSince +
+        "</div>" +
+        "</div>" +
+        '<span class="' +
+        btnClass +
+        '">' +
+        revokeIcon +
+        c.removeAccess +
+        "</span>" +
+        "</div></div></div>"
+      );
+    }
+
+    function loginNoSessionMockupHtml_() {
+      const b = getUi().mockup.loginBranch;
+      const l = getUi().mockup.loginVerify;
+      return (
+        '<div class="node-mockup node-mockup-single">' +
+        '<div class="single-title">' +
+        b.noSessionTitle +
+        "</div>" +
+        '<div class="single-desc">' +
+        b.noSessionDesc +
+        "</div>" +
+        '<div class="single-field">' +
+        l.emailLabel +
+        "</div>" +
+        '<div class="single-field">' +
+        l.passwordLabel +
+        "</div>" +
+        '<div class="single-google">' +
+        b.googleOr +
+        "</div>" +
+        '<div class="single-foot">' +
+        b.codeOut +
+        "</div></div>"
+      );
+    }
+
+    function loginWithSessionMockupHtml_() {
+      const b = getUi().mockup.loginBranch;
+      return (
+        '<div class="node-mockup node-mockup-single with-session">' +
+        '<div class="single-title">' +
+        b.withSessionTitle +
+        "</div>" +
+        '<div class="single-desc">' +
+        b.withSessionDesc +
+        "</div>" +
+        '<div class="single-session-ok"><span aria-hidden="true">✓</span> ' +
+        b.sessionActive +
+        "</div>" +
+        '<div class="single-skip">' +
+        b.skipLogin +
+        "</div>" +
+        '<div class="single-foot">' +
+        b.codeOut +
+        "</div></div>"
+      );
+    }
+
+    function loginVerifyMockupHtml_() {
+      const l = getUi().mockup.loginVerify;
+      function field(label, value) {
+        return (
+          '<div class="login-field">' +
+          '<span class="login-label">' +
+          label +
+          "</span>" +
+          '<div class="login-input-row ok">' +
+          '<span class="login-value">' +
+          value +
+          "</span>" +
+          '<span class="login-check" aria-hidden="true">✓</span>' +
+          "</div></div>"
+        );
+      }
+      return (
+        '<div class="node-mockup node-mockup-login">' +
+        '<div class="login-title">' +
+        l.title +
+        "</div>" +
+        field(l.emailLabel, l.emailValue) +
+        field(l.passwordLabel, l.passwordValue) +
+        '<div class="login-success">' +
+        '<span aria-hidden="true">✓</span>' +
+        l.success +
+        "</div></div>"
+      );
+    }
+
     function nodeMockupFor(node, step) {
+      const m = getUi().mockup;
+      if (node.id === "auth" && step.showLoginNoSessionMockup) {
+        return loginNoSessionMockupHtml_();
+      }
+      if (node.id === "auth" && step.showLoginWithSessionMockup) {
+        return loginWithSessionMockupHtml_();
+      }
+      if (node.id === "auth" && step.showConnectedAppsMockup) {
+        return connectedAppsMockupHtml_(step.showConnectedAppsMockup.emphasis);
+      }
+      if (node.id === "auth" && step.showLoginVerifyMockup) {
+        return loginVerifyMockupHtml_();
+      }
       if (node.id !== "app") return "";
       if (step.showLogoutModal) {
         const pick = step.logoutChoice || "";
         return (
           '<div class="node-mockup node-mockup-logout">' +
-          '<div class="mock-title">Logout Confirmation</div>' +
+          '<div class="mock-title">' +
+          m.logoutTitle +
+          "</div>" +
           '<div class="mock-row">' +
-          '<div class="mock-btn-outline' + (pick === "complete" ? " emphasis" : "") + '">Complete Logout</div>' +
-          '<div class="mock-btn-danger' + (pick === "app" ? " emphasis" : "") + '">theMarketer Logout</div>' +
+          '<div class="mock-btn-outline' +
+          (pick === "complete" ? " emphasis" : "") +
+          '">' +
+          m.completeLogout +
+          "</div>" +
+          '<div class="mock-btn-danger' +
+          (pick === "app" ? " emphasis" : "") +
+          '">' +
+          m.appLogout +
+          "</div>" +
           "</div></div>"
         );
       }
@@ -1084,9 +1396,14 @@
       return (
         '<div class="node-mockup">' +
         '<div class="mock-logo">theMarketer</div>' +
-        '<div class="mock-btn' + emph + '">' +
-        '<img class="id-mark" src="' + ID_MARK + '" alt="" width="14" height="14" />' +
-        "Login with theMarketerID</div>" +
+        '<div class="mock-btn' +
+        emph +
+        '">' +
+        '<img class="id-mark" src="' +
+        ID_MARK +
+        '" alt="" width="14" height="14" />' +
+        m.loginBtn +
+        "</div>" +
         "</div>"
       );
     }
@@ -1105,15 +1422,22 @@
 
     function renderNatsReturn(flowId, step) {
       const el = document.getElementById("nats-" + flowId);
+      const n = getUi().nats;
       if (!el) return;
       if (step.showEventArrow && flowId === "revoke") {
         el.className = "nats-return show";
         el.innerHTML =
-          "<span>Auth</span>" +
-          '<span class="nats-arrow">←</span>' +
-          "<span>NATS · UserAccessRevoked</span>" +
-          '<span class="nats-arrow">←</span>' +
-          "<span>Super Admin</span>";
+          "<span>" +
+          n.auth +
+          "</span>" +
+          '<span class="nats-arrow">→</span>' +
+          "<span>" +
+          n.event +
+          "</span>" +
+          '<span class="nats-arrow">→</span>' +
+          "<span>" +
+          n.sa +
+          "</span>";
       } else {
         el.className = "nats-return";
         el.innerHTML = "";
@@ -1121,46 +1445,88 @@
     }
 
     function nodeHintFor(node, step) {
+      if (step.showConnectedAppsMockup && node.id === "auth") return "";
+      if ((step.showLoginNoSessionMockup || step.showLoginWithSessionMockup) && node.id === "auth") return "";
       if (!step.nodeHints || !step.nodeHints[node.id]) return "";
       const h = step.nodeHints[node.id];
       const cls = "node-hint" + (h.emphasis ? " emphasis" : "");
       return '<div class="' + cls + '">' + h.text + "</div>";
     }
 
+    function renderScenarioJump() {
+      const el = document.getElementById("scenario-browser");
+      if (!el) return;
+      if (!isLoginFlow(currentFlow)) {
+        el.hidden = true;
+        el.innerHTML = "";
+        return;
+      }
+      const u = getUi();
+      el.hidden = false;
+      el.innerHTML =
+        '<span class="scenario-jump-label">' +
+        u.scenarioJump +
+        "</span>";
+      [
+        { flowId: "browserNoSession", label: u.scenarioNoSession },
+        { flowId: "browserWithSession", label: u.scenarioWithSession },
+      ].forEach(function (sc) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className =
+          "scenario-btn" + (currentFlow === sc.flowId ? " active" : "");
+        btn.textContent = sc.label;
+        btn.addEventListener("click", function () {
+          switchLoginScenario(sc.flowId);
+        });
+        el.appendChild(btn);
+      });
+    }
+
     function renderStepJump(flowId) {
-      const wrap = document.getElementById("jump-" + flowId);
+      const u = getUi();
+      const panel = panelIdForFlow(flowId);
+      const wrap = document.getElementById("jump-" + panel);
       const total = FLOWS[flowId].steps.length;
       const current = state[flowId];
-      wrap.innerHTML =
-        '<span class="step-jump-label">Sari la pas:</span>';
+      wrap.innerHTML = '<span class="step-jump-label">' + u.stepJump + "</span>";
       for (let i = 0; i < total; i++) {
         const btn = document.createElement("button");
         btn.type = "button";
         btn.className =
           "step-btn" + (i === current ? " current" : i < current ? " done" : "");
-        btn.textContent = "Pas " + (i + 1) + "/" + total;
-        btn.setAttribute("aria-label", "Pas " + (i + 1) + " din " + total);
+        btn.textContent = ExplainerI18n.fmt(u.stepBtn, { n: i + 1, total: total });
+        btn.setAttribute(
+          "aria-label",
+          ExplainerI18n.fmt(u.stepAria, { n: i + 1, total: total })
+        );
         btn.addEventListener("click", () => setStep(flowId, i));
         wrap.appendChild(btn);
       }
     }
 
     function renderDiagram(flowId) {
-      const wrap = document.getElementById("diag-" + flowId);
+      const panel = panelIdForFlow(flowId);
+      const wrap = document.getElementById("diag-" + panel);
       const flow = FLOWS[flowId];
       const step = flow.steps[state[flowId]];
+      const u = getUi();
       wrap.innerHTML = "";
 
       flow.nodes.forEach((node, i) => {
         if (i > 0) {
           const arr = document.createElement("span");
+          const isCallback =
+            step.showCallbackArrow &&
+            flow.nodes[i - 1].id === "app" &&
+            node.id === "auth";
           const isEvent =
             flowId === "revoke" &&
             step.showEventArrow &&
             flow.nodes[i - 1].id === "auth" &&
             node.id === "app";
           const isRedirect =
-            (flowId === "browser" || flowId === "logoutComplete") &&
+            (isLoginFlow(flowId) || flowId === "logoutComplete") &&
             step.showRedirectArrow &&
             flow.nodes[i - 1].id === "app" &&
             node.id === "auth";
@@ -1174,17 +1540,21 @@
             node.id === "auth";
           arr.className = isEvent
             ? "arrow event pulse"
-            : isRedirect || isSync
+            : isCallback
+              ? "arrow redirect flow-active"
+              : isRedirect || isSync
               ? "arrow redirect flow-active"
               : isApi
                 ? "arrow redirect flow-active"
                 : "arrow";
           if (isRedirect) {
-            arr.textContent = "redirect →";
+            arr.textContent = u.arrows.redirect;
+          } else if (isCallback) {
+            arr.textContent = "← callback";
           } else if (isSync) {
-            arr.textContent = "sync →";
+            arr.textContent = u.arrows.sync;
           } else if (isApi) {
-            arr.textContent = "roluri →";
+            arr.textContent = u.arrows.roles;
           } else if (isEvent) {
             arr.textContent = "→";
           } else {
@@ -1208,30 +1578,30 @@
 
       renderNatsReturn(flowId, step);
 
-      const statusEl = document.getElementById("app-status-" + flowId);
+      const statusEl = document.getElementById("app-status-" + panel);
       if (statusEl) {
+        const s = u.status;
         statusEl.className = "app-status";
         if (step.statusNote === "otherApps") {
-          statusEl.textContent =
-            "Super Admin: DECONECTAT · alte app-uri theMarketer încă LOGATE";
+          statusEl.textContent = s.otherApps;
           statusEl.classList.add("show", "out");
         } else if (step.statusNote === "allApps") {
-          statusEl.textContent =
-            "Super Admin: DECONECTAT · toate app-urile theMarketer OFF";
+          statusEl.textContent = s.allApps;
           statusEl.classList.add("show", "out");
         } else if (step.statusNote === "firstWins") {
-          statusEl.textContent =
-            "Regulă: parola din auth = parola app-ului migrat PRIMUL (ex. SA → Parolă A)";
+          statusEl.textContent = s.firstWins;
           statusEl.classList.add("show", "in");
         } else if (step.statusNote === "secondNoPassword") {
-          statusEl.textContent =
-            "Al doilea app (sendm) NU suprascrie parola — doar roluri în auth";
+          statusEl.textContent = s.secondNoPassword;
+          statusEl.classList.add("show", "in");
+        } else if (step.statusNote === "authAlwaysChecks") {
+          statusEl.textContent = s.authAlwaysChecks;
           statusEl.classList.add("show", "in");
         } else if (step.appState === "in") {
-          statusEl.textContent = "Super Admin: user CONECTAT (sesiune validă)";
+          statusEl.textContent = s.saConnected;
           statusEl.classList.add("show", "in");
         } else if (step.appState === "out") {
-          statusEl.textContent = "Super Admin: user DECONECTAT";
+          statusEl.textContent = s.saDisconnected;
           statusEl.classList.add("show", "out");
         }
       }
@@ -1243,6 +1613,15 @@
     }
 
     function parseHash() {
+      const legacyBrowser = location.hash.match(/^#browser\/(\d+)$/);
+      if (legacyBrowser) {
+        currentFlow = "browserNoSession";
+        state.browserNoSession = Math.min(
+          parseInt(legacyBrowser[1], 10),
+          FLOWS.browserNoSession.steps.length - 1
+        );
+        return;
+      }
       const m = location.hash.match(/^#(\w+)\/(\d+)$/);
       if (m && FLOWS[m[1]]) {
         currentFlow = m[1];
@@ -1261,33 +1640,22 @@
     function renderStep(flowId) {
       const flow = FLOWS[flowId];
       const step = flow.steps[state[flowId]];
+      const u = getUi();
+      const panel = panelIdForFlow(flowId);
       const pct = ((state[flowId] + 1) / flow.steps.length) * 100;
 
-      document.getElementById("title-" + flowId).textContent = step.title;
-      document.getElementById("text-" + flowId).textContent = step.text;
-      document.getElementById("meta-" + flowId).innerHTML = formatMeta(step.meta);
-      document.getElementById("prog-" + flowId).textContent =
-        "Pas " + (state[flowId] + 1) + " din " + flow.steps.length;
-
-      const summaryEl = document.getElementById("summary-" + flowId);
-      const isLast = state[flowId] === flow.steps.length - 1;
-      if (isLast && flow.summaryEnd) {
-        summaryEl.hidden = false;
-        summaryEl.innerHTML = flow.summaryEnd.map(function (s) {
-          return "<li>" + s + "</li>";
-        }).join("");
-      } else {
-        summaryEl.hidden = true;
-        summaryEl.innerHTML = "";
-      }
+      document.getElementById("title-" + panel).textContent = step.title;
+      document.getElementById("text-" + panel).textContent = step.text;
+      document.getElementById("meta-" + panel).innerHTML = formatMeta(step.meta || "");
 
       document.getElementById("live-region").textContent = step.title + ". " + step.text;
-      document.getElementById("bar-" + flowId).style.width = pct + "%";
-      document.getElementById("prev-" + flowId).disabled = state[flowId] === 0;
-      document.getElementById("next-" + flowId).disabled =
+      document.getElementById("bar-" + panel).style.width = pct + "%";
+      document.getElementById("prev-" + panel).disabled = state[flowId] === 0;
+      document.getElementById("next-" + panel).disabled =
         state[flowId] >= flow.steps.length - 1;
 
       renderStepJump(flowId);
+      renderScenarioJump();
       renderDiagram(flowId);
       if (flowId === currentFlow) updateHash();
     }
@@ -1297,20 +1665,29 @@
       renderStep(flowId);
     }
 
-    function switchFlow(flowId) {
+    function switchFlow(tabFlowId) {
       clearInterval(autoTimer);
       autoTimer = null;
-      currentFlow = flowId;
+      autoPlayFlow = null;
+      if (tabFlowId === "browser") {
+        if (!isLoginFlow(currentFlow)) currentFlow = "browserNoSession";
+      } else {
+        currentFlow = tabFlowId;
+      }
       document.querySelectorAll(".tab").forEach((t) => {
-        t.classList.toggle("active", t.dataset.flow === flowId);
+        const active =
+          t.dataset.flow === "browser"
+            ? isLoginFlow(currentFlow)
+            : t.dataset.flow === currentFlow;
+        t.classList.toggle("active", active);
       });
       document.querySelectorAll(".panel").forEach((p) => {
-        p.classList.toggle("active", p.id === "panel-" + flowId);
+        p.classList.toggle("active", p.id === "panel-" + panelIdForFlow(currentFlow));
       });
       document.querySelectorAll('[id^="play-"]').forEach((b) => {
-        b.textContent = "Auto ▶";
+        b.textContent = getUi().play;
       });
-      renderStep(flowId);
+      renderStep(currentFlow);
     }
 
     function showToast(msg) {
@@ -1320,11 +1697,13 @@
       setTimeout(() => el.classList.remove("show"), 2000);
     }
 
-    function copyShareLink(flowId) {
+    function copyShareLink(panelId) {
+      const u = getUi();
+      const flowId = activeFlowForPanel(panelId);
       const url = location.origin + location.pathname + "#" + flowId + "/" + state[flowId];
       navigator.clipboard.writeText(url).then(
-        () => showToast("Link copiat!"),
-        () => showToast("Nu s-a putut copia")
+        () => showToast(u.toastCopied),
+        () => showToast(u.toastFailed)
       );
     }
 
@@ -1332,37 +1711,48 @@
       tab.addEventListener("click", () => switchFlow(tab.dataset.flow));
     });
 
-    Object.keys(FLOWS).forEach((flowId) => {
-      document.getElementById("prev-" + flowId).addEventListener("click", () => {
+    PANEL_IDS.forEach((panelId) => {
+      document.getElementById("prev-" + panelId).addEventListener("click", () => {
+        const flowId = activeFlowForPanel(panelId);
         setStep(flowId, state[flowId] - 1);
       });
-      document.getElementById("next-" + flowId).addEventListener("click", () => {
+      document.getElementById("next-" + panelId).addEventListener("click", () => {
+        const flowId = activeFlowForPanel(panelId);
         setStep(flowId, state[flowId] + 1);
       });
-      document.getElementById("reset-" + flowId).addEventListener("click", () => {
+      document.getElementById("reset-" + panelId).addEventListener("click", () => {
         clearInterval(autoTimer);
         autoTimer = null;
-        document.getElementById("play-" + flowId).textContent = "Auto ▶";
+        autoPlayFlow = null;
+        document.getElementById("play-" + panelId).textContent = getUi().play;
+        const flowId = activeFlowForPanel(panelId);
         setStep(flowId, 0);
       });
-      document.getElementById("share-" + flowId).addEventListener("click", () => {
-        copyShareLink(flowId);
+      document.getElementById("share-" + panelId).addEventListener("click", () => {
+        copyShareLink(panelId);
       });
-      document.getElementById("play-" + flowId).addEventListener("click", () => {
-        const btn = document.getElementById("play-" + flowId);
-        if (autoTimer) {
+      document.getElementById("play-" + panelId).addEventListener("click", () => {
+        const u = getUi();
+        const btn = document.getElementById("play-" + panelId);
+        const flowId = activeFlowForPanel(panelId);
+        if (autoTimer && autoPlayFlow === flowId) {
           clearInterval(autoTimer);
           autoTimer = null;
-          btn.textContent = "Auto ▶";
+          autoPlayFlow = null;
+          btn.textContent = u.play;
           return;
         }
-        btn.textContent = "Stop ■";
+        clearInterval(autoTimer);
+        autoTimer = null;
+        btn.textContent = u.stop;
+        autoPlayFlow = flowId;
         setStep(flowId, 0);
         autoTimer = setInterval(() => {
           if (state[flowId] >= FLOWS[flowId].steps.length - 1) {
             clearInterval(autoTimer);
             autoTimer = null;
-            btn.textContent = "Auto ▶";
+            autoPlayFlow = null;
+            btn.textContent = u.play;
             return;
           }
           setStep(flowId, state[flowId] + 1);
@@ -1380,17 +1770,20 @@
         setStep(currentFlow, state[currentFlow] + 1);
       } else if (e.key === "Escape" && document.body.classList.contains("present")) {
         document.body.classList.remove("present");
-        document.getElementById("present-toggle").textContent = "Prezentare";
+        document.getElementById("present-toggle").textContent = getUi().present;
       }
     });
 
     document.getElementById("present-toggle").addEventListener("click", function () {
+      const u = getUi();
       const on = document.body.classList.toggle("present");
-      this.textContent = on ? "Ieșire" : "Prezentare";
+      this.textContent = on ? u.presentExit : u.present;
     });
 
+    ExplainerI18n.mountLangSwitch(document.getElementById("lang-switch"), reloadLang);
+    applyPageLang();
     parseHash();
-    switchFlow(currentFlow);
+    switchFlow(isLoginFlow(currentFlow) ? "browser" : currentFlow);
   </script>
 </body>
 </html>

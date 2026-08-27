@@ -254,6 +254,29 @@
     }
     footer a { color: var(--tm-blue-light); text-decoration: none; }
     footer a:hover { text-decoration: underline; }
+    .header-right { display: flex; align-items: center; gap: 12px; }
+    .lang-switch {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .lang-switch button {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      padding: 7px 11px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+    }
+    .lang-switch button:hover { color: var(--text); }
+    .lang-switch button.active {
+      background: rgba(0, 102, 224, 0.22);
+      color: var(--tm-blue-light);
+    }
 
     @media (max-width: 720px) {
       .wrap {
@@ -285,11 +308,14 @@
           <span class="logo-sub">Microservices Explainer</span>
         </div>
       </a>
+      <div class="header-right">
+        <div id="lang-switch"></div>
+      </div>
     </header>
 
     <section class="hero">
-      <h1>Schematici interactive<br />pentru microservicii</h1>
-      <p class="sub">
+      <h1 id="hero-title">Schematici interactive<br />pentru microservicii</h1>
+      <p class="sub" id="hero-sub">
         Fluxuri pas-cu-pas pentru echipă — click pe un serviciu ca să deschizi schematica.
       </p>
     </section>
@@ -302,10 +328,10 @@
         </div>
         <div class="card-top">
           <h2>Auth Service</h2>
-          <span class="tag live">Live</span>
+          <span class="tag live" id="tag-live">Live</span>
         </div>
-        <p>Login, revoke, logout și migrare parolă la deploy auth.</p>
-        <span class="card-cta">
+        <p id="auth-desc">Login, revoke, logout și migrare parolă la deploy auth.</p>
+        <span class="card-cta" id="auth-cta">
           Deschide schematica
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </span>
@@ -315,25 +341,32 @@
         <div class="card-icon" aria-hidden="true">📨</div>
         <div class="card-top">
           <h2>Notification</h2>
-          <span class="tag soon">În curând</span>
+          <span class="tag soon tag-soon">În curând</span>
         </div>
-        <p>Trimitere email/SMS, delivery logs, OAuth scopes.</p>
+        <p id="notif-desc">Trimitere email/SMS, delivery logs, OAuth scopes.</p>
       </div>
 
       <div class="card disabled">
         <div class="card-icon" aria-hidden="true">📊</div>
         <div class="card-top">
           <h2>Tracking</h2>
-          <span class="tag soon">În curând</span>
+          <span class="tag soon tag-soon">În curând</span>
         </div>
-        <p>Evenimente, pixeli, integrare cu app.</p>
+        <p id="track-desc">Evenimente, pixeli, integrare cu app.</p>
       </div>
     </div>
   </div>
 
   <footer>
     <a href="https://github.com/NatyNI/microservices-explainer" target="_blank" rel="noopener">GitHub</a>
-    · theMarketer internal docs
+    · <span id="footer-suffix">theMarketer internal docs</span>
   </footer>
+  <script src="assets/i18n.js"></script>
+  <script>
+    ExplainerI18n.applyIndexPage();
+    ExplainerI18n.mountLangSwitch(document.getElementById("lang-switch"), function () {
+      ExplainerI18n.applyIndexPage();
+    });
+  </script>
 </body>
 </html>
