@@ -145,6 +145,111 @@
       box-shadow: 0 0 0 3px rgba(232, 93, 93, 0.2);
       transform: scale(1.03);
     }
+    .node.pending {
+      border-color: #4a5568;
+      background: #1a1f2e;
+      opacity: 0.92;
+    }
+    .badge.pending {
+      background: #2a3040;
+      color: var(--muted);
+    }
+    .diagram.hub-diagram {
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      min-height: 300px;
+      padding: 4px 0 12px;
+    }
+    .hub-stage {
+      position: relative;
+      width: 100%;
+      max-width: 680px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .hub-badge-row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .hub-pill {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      background: #1a1f2e;
+      letter-spacing: 0.01em;
+    }
+    .hub-pill.on {
+      border-color: var(--active);
+      color: var(--active);
+      background: #152318;
+    }
+    .hub-pill.pending {
+      border-color: #4a5568;
+      color: var(--muted);
+      opacity: 0.8;
+    }
+    .hub-center .node {
+      max-width: 300px;
+      min-width: 220px;
+    }
+    .hub-center .node.node-portal {
+      max-width: 340px;
+      min-width: 280px;
+    }
+    .hub-links {
+      width: 100%;
+      max-width: 520px;
+      margin: 2px 0 6px;
+    }
+    .hub-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .hub-line {
+      stroke: #3a4255;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke 0.3s, stroke-width 0.3s, opacity 0.3s;
+    }
+    .hub-line.on {
+      stroke: var(--active);
+      stroke-width: 2.5;
+    }
+    .hub-line.highlight {
+      stroke: var(--accent);
+      stroke-width: 3;
+      animation: pulse 1.2s ease infinite;
+    }
+    .hub-line.off {
+      stroke-dasharray: 6 5;
+      opacity: 0.55;
+    }
+    .hub-apps {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+    .hub-apps .node {
+      flex: 1 1 180px;
+      max-width: 220px;
+      min-width: 160px;
+    }
+    .step-box.hub h2 { color: #60a5fa; }
+    .portal-card + .portal-card { margin-top: 6px; }
+    .portal-avatar.sendm { background: var(--tm-blue); }
     .node .icon { font-size: 2.4rem; margin-bottom: 10px; line-height: 1; }
     .node .icon-row {
       display: flex;
@@ -190,6 +295,51 @@
     .node-hint.emphasis {
       animation: pulse 1.2s ease infinite;
       box-shadow: 0 0 0 2px rgba(0, 102, 224, 0.35);
+    }
+    .node-action {
+      margin-top: 10px;
+      padding: 7px 10px;
+      border-radius: 8px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      line-height: 1.3;
+      max-width: 100%;
+      text-align: center;
+    }
+    .node-action.passive {
+      background: #2a3040;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .node-action.user {
+      background: #2a4570;
+      border: 1px solid var(--accent);
+      color: #fff;
+    }
+    .node-action.auth {
+      background: #1a3d28;
+      border: 1px solid var(--active);
+      color: var(--active);
+    }
+    .node-action.sa {
+      background: #3d2a10;
+      border: 1px solid #e8a838;
+      color: #ffc966;
+    }
+    .node-action.emphasis {
+      animation: pulse 1.2s ease infinite;
+    }
+    .node-action.user.emphasis {
+      box-shadow: 0 0 0 2px rgba(0, 102, 224, 0.45);
+    }
+    .node-action.auth.emphasis {
+      box-shadow: 0 0 0 2px rgba(61, 214, 140, 0.45);
+    }
+    .node-action.sa.emphasis {
+      box-shadow: 0 0 0 2px rgba(232, 168, 56, 0.45);
+    }
+    .node.node-acting {
+      box-shadow: 0 0 0 3px rgba(232, 168, 56, 0.25);
     }
     .node-mockup {
       margin-top: 12px;
@@ -972,7 +1122,7 @@
       <button type="button" class="tab" data-flow="revoke">Revoke din SA</button>
       <button type="button" class="tab" data-flow="logoutApp">Logout app</button>
       <button type="button" class="tab" data-flow="logoutComplete">Logout complet</button>
-      <button type="button" class="tab" data-flow="migrate">Migrare parolă</button>
+      <button type="button" class="tab" data-flow="appsOnAuth">App-uri pe auth</button>
     </div>
 
     <div id="panel-browser" class="panel active">
@@ -1068,25 +1218,25 @@
       </div>
     </div>
 
-    <div id="panel-migrate" class="panel">
-      <div class="progress-bar"><div class="progress-fill" id="bar-migrate"></div></div>
-      <div class="step-jump" id="jump-migrate"></div>
+    <div id="panel-appsOnAuth" class="panel">
+      <div class="progress-bar"><div class="progress-fill" id="bar-appsOnAuth"></div></div>
+      <div class="step-jump" id="jump-appsOnAuth"></div>
       <div class="diagram-wrap">
-        <div class="diagram three-nodes" id="diag-migrate"></div>
-        <div class="nats-return" id="nats-migrate"></div>
+        <div class="diagram" id="diag-appsOnAuth"></div>
+        <div class="nats-return" id="nats-appsOnAuth"></div>
       </div>
-      <div id="app-status-migrate" class="app-status"></div>
-      <div class="step-box migrate" id="box-migrate">
-        <h2 id="title-migrate"></h2>
-        <p id="text-migrate"></p>
-        <p class="meta" id="meta-migrate"></p>
+      <div id="app-status-appsOnAuth" class="app-status"></div>
+      <div class="step-box hub" id="box-appsOnAuth">
+        <h2 id="title-appsOnAuth"></h2>
+        <p id="text-appsOnAuth"></p>
+        <p class="meta" id="meta-appsOnAuth"></p>
       </div>
       <div class="controls">
-        <button type="button" class="ghost" id="prev-migrate">Înapoi</button>
-        <button type="button" id="next-migrate">Următorul pas</button>
-        <button type="button" class="ghost" id="play-migrate">Auto ▶</button>
-        <button type="button" class="ghost" id="reset-migrate">Reset</button>
-        <button type="button" class="ghost" id="share-migrate">Copiază link</button>
+        <button type="button" class="ghost" id="prev-appsOnAuth">Înapoi</button>
+        <button type="button" id="next-appsOnAuth">Următorul pas</button>
+        <button type="button" class="ghost" id="play-appsOnAuth">Auto ▶</button>
+        <button type="button" class="ghost" id="reset-appsOnAuth">Reset</button>
+        <button type="button" class="ghost" id="share-appsOnAuth">Copiază link</button>
         <span class="kbd-hint"><kbd>←</kbd> <kbd>→</kbd> navigare</span>
       </div>
     </div>
@@ -1161,14 +1311,14 @@
     }
 
     const LOGIN_FLOWS = ["browserNoSession", "browserWithSession"];
-    const PANEL_IDS = ["browser", "revoke", "logoutApp", "logoutComplete", "migrate"];
+    const PANEL_IDS = ["browser", "revoke", "logoutApp", "logoutComplete", "appsOnAuth"];
     const state = {
       browserNoSession: 0,
       browserWithSession: 0,
       revoke: 0,
       logoutApp: 0,
       logoutComplete: 0,
-      migrate: 0,
+      appsOnAuth: 0,
     };
     let currentFlow = "browserNoSession";
     let autoTimer = null;
@@ -1212,8 +1362,15 @@
       if (isActive) c += " active";
       if (step.styles && step.styles[node.id] === "connected") c += " connected";
       if (step.styles && step.styles[node.id] === "revoked") c += " revoked";
-      if (node.id === "auth" && (step.showConnectedAppsMockup || step.showLoginVerifyMockup || step.showLoginNoSessionMockup || step.showLoginWithSessionMockup))
+      if (step.styles && step.styles[node.id] === "pending") c += " pending";
+      if (node.id === "auth" && (step.showConnectedAppsMockup || step.showDualConnectedAppsMockup || step.showLoginVerifyMockup || step.showLoginNoSessionMockup || step.showLoginWithSessionMockup))
         c += " node-portal";
+      if (
+        step.nodeActions &&
+        step.nodeActions[node.id] &&
+        step.nodeActions[node.id].emphasis
+      )
+        c += " node-acting";
       return c;
     }
 
@@ -1225,6 +1382,14 @@
           return '<span class="badge off">' + b.disconnected + "</span>";
         if (step.authState === "in")
           return '<span class="badge ok">' + b.connected + "</span>";
+        return "";
+      }
+      if (node.id === "sa" || node.id === "sendm") {
+        if (step.showMockup && (!step.mockupNode || step.mockupNode === node.id)) return "";
+        if (step.styles && step.styles[node.id] === "connected")
+          return '<span class="badge ok">' + b.connected + "</span>";
+        if (step.styles && step.styles[node.id] === "pending")
+          return '<span class="badge pending">' + b.notConnected + "</span>";
         return "";
       }
       if (node.id !== "app") return "";
@@ -1274,6 +1439,53 @@
         c.removeAccess +
         "</span>" +
         "</div></div></div>"
+      );
+    }
+
+    function dualConnectedAppsMockupHtml_() {
+      const c = getUi().mockup.connectedApps;
+      const d = getUi().mockup.connectedAppsDual;
+      const revokeIcon =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">' +
+        '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>' +
+        '<path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>' +
+        '<line x1="4" y1="4" x2="20" y2="20"/>' +
+        "</svg>";
+      function card(avatarClass, letter, name, since) {
+        return (
+          '<div class="portal-card">' +
+          '<div class="portal-app-row">' +
+          '<span class="portal-avatar ' +
+          avatarClass +
+          '" aria-hidden="true">' +
+          letter +
+          "</span>" +
+          '<div class="portal-app-meta">' +
+          '<div class="portal-app-name">' +
+          name +
+          "</div>" +
+          '<div class="portal-app-date">' +
+          since +
+          "</div>" +
+          "</div>" +
+          '<span class="portal-revoke-btn">' +
+          revokeIcon +
+          c.removeAccess +
+          "</span>" +
+          "</div></div>"
+        );
+      }
+      return (
+        '<div class="node-mockup node-mockup-portal">' +
+        '<div class="portal-title">' +
+        c.title +
+        "</div>" +
+        '<div class="portal-intro">' +
+        c.intro +
+        "</div>" +
+        card("", "S", d.saName, d.saSince) +
+        card("sendm", "M", d.sendmName, d.sendmSince) +
+        "</div>"
       );
     }
 
@@ -1366,8 +1578,28 @@
       if (node.id === "auth" && step.showConnectedAppsMockup) {
         return connectedAppsMockupHtml_(step.showConnectedAppsMockup.emphasis);
       }
+      if (node.id === "auth" && step.showDualConnectedAppsMockup) {
+        return dualConnectedAppsMockupHtml_();
+      }
       if (node.id === "auth" && step.showLoginVerifyMockup) {
         return loginVerifyMockupHtml_();
+      }
+      if ((node.id === "app" || node.id === "sa" || node.id === "sendm") && step.showMockup) {
+        if (step.mockupNode && step.mockupNode !== node.id) return "";
+        const emph = step.showMockup.emphasis ? " emphasis" : "";
+        return (
+          '<div class="node-mockup">' +
+          '<div class="mock-logo">theMarketer</div>' +
+          '<div class="mock-btn' +
+          emph +
+          '">' +
+          '<img class="id-mark" src="' +
+          ID_MARK +
+          '" alt="" width="14" height="14" />' +
+          m.loginBtn +
+          "</div>" +
+          "</div>"
+        );
       }
       if (node.id !== "app") return "";
       if (step.showLogoutModal) {
@@ -1408,11 +1640,102 @@
       );
     }
 
+    function buildNodeElement(node, step) {
+      const el = document.createElement("div");
+      el.className = nodeClasses(node, step);
+      el.innerHTML =
+        nodeIconHtml(node) +
+        '<div class="label">' + node.label + "</div>" +
+        nodeMockupFor(node, step) +
+        nodeActionFor(node, step) +
+        nodeHintFor(node, step) +
+        badgeFor(node, step);
+      return el;
+    }
+
+    function hubLinksSvg(step) {
+      const links = step.hubLinks || {};
+      const hl = step.highlightLink;
+      const saOn = !!links.sa;
+      const sendmOn = !!links.sendm;
+      const saClass =
+        "hub-line" +
+        (saOn ? " on" : " off") +
+        (hl === "sa" ? " highlight" : "");
+      const sendmClass =
+        "hub-line" +
+        (sendmOn ? " on" : " off") +
+        (hl === "sendm" ? " highlight" : "");
+      const hubColor = saOn || sendmOn ? "var(--active)" : "var(--border)";
+      const wrap = document.createElement("div");
+      wrap.className = "hub-links";
+      wrap.innerHTML =
+        '<svg class="hub-svg" viewBox="0 0 400 80" aria-hidden="true">' +
+        '<path class="' +
+        saClass +
+        '" d="M 200 2 L 200 38 L 100 78" />' +
+        '<path class="' +
+        sendmClass +
+        '" d="M 200 2 L 200 38 L 300 78" />' +
+        '<circle cx="200" cy="38" r="5" fill="' +
+        hubColor +
+        '" />' +
+        "</svg>";
+      return wrap;
+    }
+
+    function renderHubDiagram(wrap, flow, step) {
+      wrap.className = "diagram hub-diagram";
+      const u = getUi();
+      const h = u.hub || {};
+      const stage = document.createElement("div");
+      stage.className = "hub-stage";
+
+      const pills = document.createElement("div");
+      pills.className = "hub-badge-row";
+      const links = step.hubLinks || {};
+      pills.innerHTML =
+        '<span class="hub-pill on">🔐 ' +
+        (h.authLabel || "Auth") +
+        "</span>" +
+        '<span class="hub-pill' +
+        (links.sa ? " on" : "") +
+        '">🖥️ ' +
+        (h.saLabel || "SA") +
+        "</span>" +
+        '<span class="hub-pill' +
+        (links.sendm ? " on" : " pending") +
+        '">📱 ' +
+        (h.sendmLabel || "sendm") +
+        "</span>";
+      stage.appendChild(pills);
+
+      const authNode = flow.nodes.find(function (n) {
+        return n.id === "auth";
+      });
+      const center = document.createElement("div");
+      center.className = "hub-center";
+      center.appendChild(buildNodeElement(authNode, step));
+      stage.appendChild(center);
+      stage.appendChild(hubLinksSvg(step));
+
+      const apps = document.createElement("div");
+      apps.className = "hub-apps";
+      ["sa", "sendm"].forEach(function (id) {
+        const node = flow.nodes.find(function (n) {
+          return n.id === id;
+        });
+        apps.appendChild(buildNodeElement(node, step));
+      });
+      stage.appendChild(apps);
+      wrap.appendChild(stage);
+    }
+
     function formatMeta(text) {
       if (!text) return "";
       const safe = text.replace(/&/g, "&amp;").replace(/</g, "&lt;");
       return safe.replace(
-        /(→?\s*)?(sa\.themarketer\.com(?:\/[\w-]+)?|auth\.themarketer\.com)/gi,
+        /(→?\s*)?(sa\.themarketer\.com(?:\/[\w-]+)?|app\.themarketer\.com(?:\/[\w-]+)?|auth\.themarketer\.com(?:\/[\w-]+)?)/gi,
         function (_, prefix, url) {
           return (prefix || "") +
             '<a href="https://' + url + '" target="_blank" rel="noopener">' + url + "</a>";
@@ -1444,8 +1767,19 @@
       }
     }
 
+    function nodeActionFor(node, step) {
+      if (!step.nodeActions || !step.nodeActions[node.id]) return "";
+      const a = step.nodeActions[node.id];
+      const kind = a.kind || "passive";
+      const cls =
+        "node-action " +
+        kind +
+        (a.emphasis ? " emphasis" : "");
+      return '<div class="' + cls + '">' + a.text + "</div>";
+    }
+
     function nodeHintFor(node, step) {
-      if (step.showConnectedAppsMockup && node.id === "auth") return "";
+      if ((step.showConnectedAppsMockup || step.showDualConnectedAppsMockup) && node.id === "auth") return "";
       if ((step.showLoginNoSessionMockup || step.showLoginWithSessionMockup) && node.id === "auth") return "";
       if (!step.nodeHints || !step.nodeHints[node.id]) return "";
       const h = step.nodeHints[node.id];
@@ -1513,7 +1847,10 @@
       const u = getUi();
       wrap.innerHTML = "";
 
-      flow.nodes.forEach((node, i) => {
+      if (flow.layout === "hub") {
+        renderHubDiagram(wrap, flow, step);
+      } else {
+        flow.nodes.forEach((node, i) => {
         if (i > 0) {
           const arr = document.createElement("span");
           const isCallback =
@@ -1535,7 +1872,6 @@
             node.id === "auth" &&
             (flow.nodes[i - 1].id === "app" || flow.nodes[i - 1].id === "sendm");
           const isSync =
-            flowId === "migrate" &&
             step.showSyncArrow &&
             node.id === "auth";
           arr.className = isEvent
@@ -1571,10 +1907,12 @@
           nodeIconHtml(node) +
           '<div class="label">' + node.label + "</div>" +
           nodeMockupFor(node, step) +
+          nodeActionFor(node, step) +
           nodeHintFor(node, step) +
           badgeFor(node, step);
         wrap.appendChild(el);
       });
+      }
 
       renderNatsReturn(flowId, step);
 
@@ -1588,14 +1926,29 @@
         } else if (step.statusNote === "allApps") {
           statusEl.textContent = s.allApps;
           statusEl.classList.add("show", "out");
-        } else if (step.statusNote === "firstWins") {
-          statusEl.textContent = s.firstWins;
-          statusEl.classList.add("show", "in");
-        } else if (step.statusNote === "secondNoPassword") {
-          statusEl.textContent = s.secondNoPassword;
-          statusEl.classList.add("show", "in");
         } else if (step.statusNote === "authAlwaysChecks") {
           statusEl.textContent = s.authAlwaysChecks;
+          statusEl.classList.add("show", "in");
+        } else if (step.statusNote === "saDisconnected") {
+          statusEl.textContent = s.saDisconnected;
+          statusEl.classList.add("show", "out");
+        } else if (step.statusNote === "saAndAuth") {
+          statusEl.textContent = s.saAndAuth;
+          statusEl.classList.add("show", "in");
+        } else if (step.statusNote === "authSessionOnly") {
+          statusEl.textContent = s.authSessionOnly;
+          statusEl.classList.add("show", "in");
+        } else if (step.statusNote === "hubAuthOnly") {
+          statusEl.textContent = s.hubAuthOnly;
+          statusEl.classList.add("show", "in");
+        } else if (step.statusNote === "hubSaConnected") {
+          statusEl.textContent = s.hubSaConnected;
+          statusEl.classList.add("show", "in");
+        } else if (step.statusNote === "hubBothApps") {
+          statusEl.textContent = s.hubBothApps;
+          statusEl.classList.add("show", "in");
+        } else if (step.statusNote === "hubOneIdentity") {
+          statusEl.textContent = s.hubOneIdentity;
           statusEl.classList.add("show", "in");
         } else if (step.appState === "in") {
           statusEl.textContent = s.saConnected;
@@ -1632,8 +1985,8 @@
         currentFlow = "logoutApp";
       } else if (location.hash === "#logoutComplete") {
         currentFlow = "logoutComplete";
-      } else if (location.hash === "#migrate") {
-        currentFlow = "migrate";
+      } else if (location.hash === "#appsOnAuth") {
+        currentFlow = "appsOnAuth";
       }
     }
 
