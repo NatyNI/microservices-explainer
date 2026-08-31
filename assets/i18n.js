@@ -78,9 +78,13 @@
           },
           connectedAppsDual: {
             saName: "Super admin",
-            sendmName: "App sendm",
+            sendmName: "theMarketer",
             saSince: "din 27 august 2026",
             sendmSince: "din 31 august 2026",
+          },
+          connectedAppsTriple: {
+            partnersName: "Partners",
+            partnersSince: "din 31 august 2026",
           },
           loginVerify: {
             title: "Bine ai revenit",
@@ -115,13 +119,22 @@
           authSessionOnly: "Logat în theMarketerID · neconectat din Super Admin",
           hubAuthOnly: "Logat în theMarketerID · app-urile nu sunt încă conectate",
           hubSaConnected: "Super Admin conectat prin auth · sendm urmează",
-          hubBothApps: "SA + sendm conectate prin auth",
+          hubBothApps: "SA + theMarketer conectate prin auth",
+          hubAllApps: "SA + theMarketer + Partners — prin auth",
           hubOneIdentity: "O identitate theMarketerID · ambele app-uri",
         },
         hub: {
           authLabel: "Auth — centrul login-ului",
           saLabel: "Super Admin",
-          sendmLabel: "App sendm",
+          sendmLabel: "theMarketer",
+          partnersLabel: "Partners",
+          partnersOn: "Partners afișat · apasă P din nou pentru ascundere",
+          partnersOff: "Partners ascuns",
+          partnersConnected: "Conectat prin auth",
+          partnersPending: "Nu ești conectat încă",
+          step9Title: "Pas 9 — Toate app-urile prin auth",
+          step9Text:
+            "Super Admin, theMarketer și Partners — toate prin auth. În portal vezi toate app-urile conectate.",
         },
         nats: {
           auth: "Auth",
@@ -204,9 +217,13 @@
           },
           connectedAppsDual: {
             saName: "Super admin",
-            sendmName: "App sendm",
+            sendmName: "theMarketer",
             saSince: "since 27 August 2026",
             sendmSince: "since 31 August 2026",
+          },
+          connectedAppsTriple: {
+            partnersName: "Partners",
+            partnersSince: "since 31 August 2026",
           },
           loginVerify: {
             title: "Welcome back",
@@ -241,13 +258,22 @@
           authSessionOnly: "Signed in to theMarketerID · not connected to Super Admin",
           hubAuthOnly: "Signed in to theMarketerID · apps not connected yet",
           hubSaConnected: "Super Admin connected via auth · sendm next",
-          hubBothApps: "SA + sendm connected via auth",
+          hubBothApps: "SA + theMarketer connected via auth",
+          hubAllApps: "SA + theMarketer + Partners — via auth",
           hubOneIdentity: "One theMarketerID · both apps",
         },
         hub: {
           authLabel: "Auth — login hub",
           saLabel: "Super Admin",
-          sendmLabel: "App sendm",
+          sendmLabel: "theMarketer",
+          partnersLabel: "Partners",
+          partnersOn: "Partners shown · press P again to hide",
+          partnersOff: "Partners hidden",
+          partnersConnected: "Connected via auth",
+          partnersPending: "Not connected yet",
+          step9Title: "Step 9 — All apps via auth",
+          step9Text:
+            "Super Admin, theMarketer, and Partners — all via auth. The portal lists every connected app.",
         },
         nats: {
           auth: "Auth",
@@ -722,7 +748,8 @@
         nodes: [
           { id: "auth", label: "Auth", url: "auth.themarketer.com" },
           { id: "sa", label: "Super Admin", url: "sa.themarketer.com" },
-          { id: "sendm", label: "App sendm", url: "app.themarketer.com" },
+          { id: "sendm", label: "theMarketer", url: "app.themarketer.com" },
+          { id: "partners", label: "Partners", url: "partners.themarketer.com" },
         ],
         steps: [
           {
@@ -1339,7 +1366,8 @@
         nodes: [
           { id: "auth", label: "Auth", url: "auth.themarketer.com" },
           { id: "sa", label: "Super Admin", url: "sa.themarketer.com" },
-          { id: "sendm", label: "App sendm", url: "app.themarketer.com" },
+          { id: "sendm", label: "theMarketer", url: "app.themarketer.com" },
+          { id: "partners", label: "Partners", url: "partners.themarketer.com" },
         ],
         steps: [
           {

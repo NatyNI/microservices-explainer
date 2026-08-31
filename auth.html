@@ -249,7 +249,15 @@
     }
     .step-box.hub h2 { color: #60a5fa; }
     .portal-card + .portal-card { margin-top: 6px; }
+    .hub-apps.three-apps .node {
+      flex: 1 1 140px;
+      max-width: 180px;
+      min-width: 130px;
+      padding: 18px 14px;
+    }
+    .hub-apps.three-apps .node .icon { font-size: 1.9rem; }
     .portal-avatar.sendm { background: var(--tm-blue); }
+    .portal-avatar.partners { background: #7c3aed; }
     .node .icon { font-size: 2.4rem; margin-bottom: 10px; line-height: 1; }
     .node .icon-row {
       display: flex;
@@ -1252,8 +1260,16 @@
 
   <script src="assets/i18n.js"></script>
   <script>
-    const NODE_ICONS = { app: "🖥️", sa: "🖥️", sendm: "📱", auth: "🔐", portal: "⚙️" };
+    const NODE_ICONS = { app: "🖥️", sa: "🖥️", sendm: "📱", partners: "🤝", auth: "🔐", portal: "⚙️" };
+    const HUB_PARTNERS_KEY = "explainer-hub-partners";
     const ID_MARK = "assets/themarketer-id-mark.svg";
+
+    let hubPartnersMode = false;
+    try {
+      hubPartnersMode = sessionStorage.getItem(HUB_PARTNERS_KEY) === "1";
+    } catch (e) {
+      /* ignore */
+    }
 
     function nodeIconHtml(node) {
       if (node.id === "auth") {
@@ -1363,7 +1379,7 @@
       if (step.styles && step.styles[node.id] === "connected") c += " connected";
       if (step.styles && step.styles[node.id] === "revoked") c += " revoked";
       if (step.styles && step.styles[node.id] === "pending") c += " pending";
-      if (node.id === "auth" && (step.showConnectedAppsMockup || step.showDualConnectedAppsMockup || step.showLoginVerifyMockup || step.showLoginNoSessionMockup || step.showLoginWithSessionMockup))
+      if (node.id === "auth" && (step.showConnectedAppsMockup || step.showDualConnectedAppsMockup || step.showTripleConnectedAppsMockup || step.showLoginVerifyMockup || step.showLoginNoSessionMockup || step.showLoginWithSessionMockup))
         c += " node-portal";
       if (
         step.nodeActions &&
@@ -1384,7 +1400,7 @@
           return '<span class="badge ok">' + b.connected + "</span>";
         return "";
       }
-      if (node.id === "sa" || node.id === "sendm") {
+      if (node.id === "sa" || node.id === "sendm" || node.id === "partners") {
         if (step.showMockup && (!step.mockupNode || step.mockupNode === node.id)) return "";
         if (step.styles && step.styles[node.id] === "connected")
           return '<span class="badge ok">' + b.connected + "</span>";
@@ -1489,6 +1505,55 @@
       );
     }
 
+    function tripleConnectedAppsMockupHtml_() {
+      const c = getUi().mockup.connectedApps;
+      const d = getUi().mockup.connectedAppsDual;
+      const t = getUi().mockup.connectedAppsTriple;
+      const revokeIcon =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">' +
+        '<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>' +
+        '<path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>' +
+        '<line x1="4" y1="4" x2="20" y2="20"/>' +
+        "</svg>";
+      function card(avatarClass, letter, name, since) {
+        return (
+          '<div class="portal-card">' +
+          '<div class="portal-app-row">' +
+          '<span class="portal-avatar ' +
+          avatarClass +
+          '" aria-hidden="true">' +
+          letter +
+          "</span>" +
+          '<div class="portal-app-meta">' +
+          '<div class="portal-app-name">' +
+          name +
+          "</div>" +
+          '<div class="portal-app-date">' +
+          since +
+          "</div>" +
+          "</div>" +
+          '<span class="portal-revoke-btn">' +
+          revokeIcon +
+          c.removeAccess +
+          "</span>" +
+          "</div></div>"
+        );
+      }
+      return (
+        '<div class="node-mockup node-mockup-portal">' +
+        '<div class="portal-title">' +
+        c.title +
+        "</div>" +
+        '<div class="portal-intro">' +
+        c.intro +
+        "</div>" +
+        card("", "S", d.saName, d.saSince) +
+        card("sendm", "M", d.sendmName, d.sendmSince) +
+        card("partners", "P", t.partnersName, t.partnersSince) +
+        "</div>"
+      );
+    }
+
     function loginNoSessionMockupHtml_() {
       const b = getUi().mockup.loginBranch;
       const l = getUi().mockup.loginVerify;
@@ -1581,10 +1646,13 @@
       if (node.id === "auth" && step.showDualConnectedAppsMockup) {
         return dualConnectedAppsMockupHtml_();
       }
+      if (node.id === "auth" && step.showTripleConnectedAppsMockup) {
+        return tripleConnectedAppsMockupHtml_();
+      }
       if (node.id === "auth" && step.showLoginVerifyMockup) {
         return loginVerifyMockupHtml_();
       }
-      if ((node.id === "app" || node.id === "sa" || node.id === "sendm") && step.showMockup) {
+      if ((node.id === "app" || node.id === "sa" || node.id === "sendm" || node.id === "partners") && step.showMockup) {
         if (step.mockupNode && step.mockupNode !== node.id) return "";
         const emph = step.showMockup.emphasis ? " emphasis" : "";
         return (
@@ -1640,6 +1708,69 @@
       );
     }
 
+    function augmentHubStep(step) {
+      if (!hubPartnersMode || currentFlow !== "appsOnAuth") return step;
+      const h = getUi().hub || {};
+      const out = Object.assign({}, step);
+      out.styles = Object.assign({}, step.styles || {});
+      out.hubLinks = Object.assign({}, step.hubLinks || {});
+      const sendmState = step.styles && step.styles.sendm;
+      if (sendmState === "connected") {
+        out.styles.partners = "connected";
+        out.hubLinks.partners = true;
+      } else if (sendmState === "pending") {
+        out.styles.partners = "pending";
+        out.hubLinks.partners = false;
+      }
+      if (step.nodeActions) {
+        out.nodeActions = Object.assign({}, step.nodeActions);
+        if (sendmState === "connected" && !out.nodeActions.partners) {
+          out.nodeActions.partners = {
+            text: h.partnersConnected || "Connected via auth",
+            kind: "passive",
+          };
+        } else if (sendmState === "pending" && !out.nodeActions.partners) {
+          out.nodeActions.partners = {
+            text: h.partnersPending || "Not connected yet",
+            kind: "passive",
+          };
+        }
+      }
+      if (step.showDualConnectedAppsMockup) {
+        out.showTripleConnectedAppsMockup = true;
+        delete out.showDualConnectedAppsMockup;
+      }
+      if (step.statusNote === "hubBothApps") {
+        out.statusNote = "hubAllApps";
+      }
+      if (step.nodeActions && step.nodeActions.auth && step.showDualConnectedAppsMockup) {
+        out.nodeActions = Object.assign({}, out.nodeActions || step.nodeActions);
+        out.nodeActions.auth = {
+          text: "SA + theMarketer + Partners",
+          kind: "auth",
+          emphasis: true,
+        };
+      }
+      return out;
+    }
+
+    function hubAppIds() {
+      return hubPartnersMode ? ["sa", "sendm", "partners"] : ["sa", "sendm"];
+    }
+
+    function toggleHubPartners() {
+      if (currentFlow !== "appsOnAuth") return;
+      hubPartnersMode = !hubPartnersMode;
+      try {
+        sessionStorage.setItem(HUB_PARTNERS_KEY, hubPartnersMode ? "1" : "0");
+      } catch (e) {
+        /* ignore */
+      }
+      const h = getUi().hub || {};
+      showToast(hubPartnersMode ? h.partnersOn : h.partnersOff);
+      renderStep("appsOnAuth");
+    }
+
     function buildNodeElement(node, step) {
       const el = document.createElement("div");
       el.className = nodeClasses(node, step);
@@ -1656,6 +1787,41 @@
     function hubLinksSvg(step) {
       const links = step.hubLinks || {};
       const hl = step.highlightLink;
+      const wrap = document.createElement("div");
+      wrap.className = "hub-links";
+      if (hubPartnersMode) {
+        const ids = [
+          { key: "sa", x: 67 },
+          { key: "sendm", x: 200 },
+          { key: "partners", x: 333 },
+        ];
+        const anyOn = ids.some(function (item) {
+          return links[item.key];
+        });
+        const hubColor = anyOn ? "var(--active)" : "var(--border)";
+        let paths = "";
+        ids.forEach(function (item) {
+          const on = !!links[item.key];
+          const cls =
+            "hub-line" +
+            (on ? " on" : " off") +
+            (hl === item.key ? " highlight" : "");
+          paths +=
+            '<path class="' +
+            cls +
+            '" d="M 200 2 L 200 38 L ' +
+            item.x +
+            ' 78" />';
+        });
+        wrap.innerHTML =
+          '<svg class="hub-svg" viewBox="0 0 400 80" aria-hidden="true">' +
+          paths +
+          '<circle cx="200" cy="38" r="5" fill="' +
+          hubColor +
+          '" />' +
+          "</svg>";
+        return wrap;
+      }
       const saOn = !!links.sa;
       const sendmOn = !!links.sendm;
       const saClass =
@@ -1667,8 +1833,6 @@
         (sendmOn ? " on" : " off") +
         (hl === "sendm" ? " highlight" : "");
       const hubColor = saOn || sendmOn ? "var(--active)" : "var(--border)";
-      const wrap = document.createElement("div");
-      wrap.className = "hub-links";
       wrap.innerHTML =
         '<svg class="hub-svg" viewBox="0 0 400 80" aria-hidden="true">' +
         '<path class="' +
@@ -1706,8 +1870,15 @@
         '<span class="hub-pill' +
         (links.sendm ? " on" : " pending") +
         '">📱 ' +
-        (h.sendmLabel || "sendm") +
-        "</span>";
+        (h.sendmLabel || "theMarketer") +
+        "</span>" +
+        (hubPartnersMode
+          ? '<span class="hub-pill' +
+            (links.partners ? " on" : " pending") +
+            '">🤝 ' +
+            (h.partnersLabel || "Partners") +
+            "</span>"
+          : "");
       stage.appendChild(pills);
 
       const authNode = flow.nodes.find(function (n) {
@@ -1720,8 +1891,8 @@
       stage.appendChild(hubLinksSvg(step));
 
       const apps = document.createElement("div");
-      apps.className = "hub-apps";
-      ["sa", "sendm"].forEach(function (id) {
+      apps.className = "hub-apps" + (hubPartnersMode ? " three-apps" : "");
+      hubAppIds().forEach(function (id) {
         const node = flow.nodes.find(function (n) {
           return n.id === id;
         });
@@ -1735,7 +1906,7 @@
       if (!text) return "";
       const safe = text.replace(/&/g, "&amp;").replace(/</g, "&lt;");
       return safe.replace(
-        /(→?\s*)?(sa\.themarketer\.com(?:\/[\w-]+)?|app\.themarketer\.com(?:\/[\w-]+)?|auth\.themarketer\.com(?:\/[\w-]+)?)/gi,
+        /(→?\s*)?(sa\.themarketer\.com(?:\/[\w-]+)?|app\.themarketer\.com(?:\/[\w-]+)?|partners\.themarketer\.com(?:\/[\w-]+)?|auth\.themarketer\.com(?:\/[\w-]+)?)/gi,
         function (_, prefix, url) {
           return (prefix || "") +
             '<a href="https://' + url + '" target="_blank" rel="noopener">' + url + "</a>";
@@ -1779,7 +1950,7 @@
     }
 
     function nodeHintFor(node, step) {
-      if ((step.showConnectedAppsMockup || step.showDualConnectedAppsMockup) && node.id === "auth") return "";
+      if ((step.showConnectedAppsMockup || step.showDualConnectedAppsMockup || step.showTripleConnectedAppsMockup) && node.id === "auth") return "";
       if ((step.showLoginNoSessionMockup || step.showLoginWithSessionMockup) && node.id === "auth") return "";
       if (!step.nodeHints || !step.nodeHints[node.id]) return "";
       const h = step.nodeHints[node.id];
@@ -1843,7 +2014,10 @@
       const panel = panelIdForFlow(flowId);
       const wrap = document.getElementById("diag-" + panel);
       const flow = FLOWS[flowId];
-      const step = flow.steps[state[flowId]];
+      let step = flow.steps[state[flowId]];
+      if (flow.layout === "hub") {
+        step = augmentHubStep(step);
+      }
       const u = getUi();
       wrap.innerHTML = "";
 
@@ -1947,6 +2121,9 @@
         } else if (step.statusNote === "hubBothApps") {
           statusEl.textContent = s.hubBothApps;
           statusEl.classList.add("show", "in");
+        } else if (step.statusNote === "hubAllApps") {
+          statusEl.textContent = s.hubAllApps;
+          statusEl.classList.add("show", "in");
         } else if (step.statusNote === "hubOneIdentity") {
           statusEl.textContent = s.hubOneIdentity;
           statusEl.classList.add("show", "in");
@@ -1992,16 +2169,31 @@
 
     function renderStep(flowId) {
       const flow = FLOWS[flowId];
-      const step = flow.steps[state[flowId]];
+      let step = flow.steps[state[flowId]];
+      if (flow.layout === "hub") {
+        step = augmentHubStep(step);
+      }
       const u = getUi();
       const panel = panelIdForFlow(flowId);
       const pct = ((state[flowId] + 1) / flow.steps.length) * 100;
 
-      document.getElementById("title-" + panel).textContent = step.title;
-      document.getElementById("text-" + panel).textContent = step.text;
+      let title = step.title;
+      let text = step.text;
+      if (
+        hubPartnersMode &&
+        flowId === "appsOnAuth" &&
+        state[flowId] === flow.steps.length - 1
+      ) {
+        const h = u.hub || {};
+        if (h.step9Title) title = h.step9Title;
+        if (h.step9Text) text = h.step9Text;
+      }
+
+      document.getElementById("title-" + panel).textContent = title;
+      document.getElementById("text-" + panel).textContent = text;
       document.getElementById("meta-" + panel).innerHTML = formatMeta(step.meta || "");
 
-      document.getElementById("live-region").textContent = step.title + ". " + step.text;
+      document.getElementById("live-region").textContent = title + ". " + text;
       document.getElementById("bar-" + panel).style.width = pct + "%";
       document.getElementById("prev-" + panel).disabled = state[flowId] === 0;
       document.getElementById("next-" + panel).disabled =
@@ -2121,6 +2313,11 @@
       } else if (e.key === "ArrowRight") {
         e.preventDefault();
         setStep(currentFlow, state[currentFlow] + 1);
+      } else if (e.key === "p" || e.key === "P") {
+        if (currentFlow === "appsOnAuth") {
+          e.preventDefault();
+          toggleHubPartners();
+        }
       } else if (e.key === "Escape" && document.body.classList.contains("present")) {
         document.body.classList.remove("present");
         document.getElementById("present-toggle").textContent = getUi().present;
