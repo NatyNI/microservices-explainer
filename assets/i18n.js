@@ -66,7 +66,7 @@
         mockup: {
           logoutTitle: "Logout Confirmation",
           completeLogout: "Complete Logout",
-          appLogout: "theMarketer Logout",
+          appLogout: "Superadmin Logout",
           loginBtn: "Login with theMarketerID",
           connectedApps: {
             title: "Aplicații conectate",
@@ -192,7 +192,7 @@
         mockup: {
           logoutTitle: "Logout Confirmation",
           completeLogout: "Complete Logout",
-          appLogout: "theMarketer Logout",
+          appLogout: "Superadmin Logout",
           loginBtn: "Login with theMarketerID",
           connectedApps: {
             title: "Connected applications",
@@ -559,7 +559,7 @@
             active: "app",
             activeNodes: ["auth", "app"],
             title: "Pas 3 — Logout doar din SA",
-            text: "Alegi theMarketer Logout — te deconectezi doar din Super Admin, nu din toate app-urile.",
+            text: "Alegi Superadmin Logout — te deconectezi doar din Super Admin, nu din toate app-urile.",
             meta: "Super Admin · doar din această app",
             appState: "in",
             authState: "in",
@@ -1176,7 +1176,7 @@
             active: "app",
             activeNodes: ["auth", "app"],
             title: "Step 3 — Logout from SA only",
-            text: "You choose theMarketer Logout — signed out of Super Admin only, not all apps.",
+            text: "You choose Superadmin Logout — signed out of Super Admin only, not all apps.",
             meta: "Super Admin · this app only",
             appState: "in",
             authState: "in",
