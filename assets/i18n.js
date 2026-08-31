@@ -329,6 +329,9 @@
               auth: { text: "Sesiune auth activă", kind: "passive" },
             },
           },
+        ],
+      },
+      browserWithSession: {
         nodes: [
           { id: "app", label: "Super Admin", url: "sa.themarketer.com" },
           { id: "auth", label: "Auth", url: "auth.themarketer.com" },
